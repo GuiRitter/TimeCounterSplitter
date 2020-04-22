@@ -9,6 +9,8 @@ class App extends React.Component {
 
 	/**
 	 * Prevents the tab from being closed accidentally.
+	 * 
+	 * [Source](https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload).
 	 */
 	componentDidMount() {
 		window.addEventListener('beforeunload', function (e) {

@@ -1,11 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Task from './Task';
+
 class TaskList extends React.Component {
 
 	render() {
 		return <>
-			{(this.props.taskList || []).map(task => <p>{task.name}</p>)}
+			<p>
+				<input
+					onClick={() => alert('TO DO')}
+					type='button'
+					value='stop'
+				/>
+			</p>
+			{(this.props.taskList || []).map(task => <Task
+				task={task}
+			/>)}
 		</>
 	}
 }
