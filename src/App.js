@@ -7,6 +7,18 @@ import TaskList from './TaskList';
 
 class App extends React.Component {
 
+	/**
+	 * Prevents the tab from being closed accidentally.
+	 */
+	componentDidMount() {
+		window.addEventListener('beforeunload', function (e) {
+			// Cancel the event
+			e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+			// Chrome requires returnValue to be set
+			e.returnValue = '';
+		});
+	}
+
 	render() {
 		return <>
 			<input
@@ -17,7 +29,7 @@ class App extends React.Component {
 				type='button'
 				value='add'
 			/>
-			<TaskList/>
+			<TaskList />
 		</>
 	}
 }

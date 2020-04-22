@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
 				...state,
 				taskList: state.taskList.concat([{
 					name: action.newTaskName
-				}].filter(newTask => state.taskList.every(task => newTask.name != task.name)))
+				}].filter(newTask => state.taskList.every(task => newTask.name !== task.name)))
 			};
 		default: return state;
 	}
