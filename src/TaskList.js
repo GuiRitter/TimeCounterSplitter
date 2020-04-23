@@ -6,18 +6,13 @@ import Task from './Task';
 class TaskList extends React.Component {
 
 	render() {
-		return <>
-			<p>
-				<input
-					onClick={() => alert('TO DO')}
-					type='button'
-					value='stop'
-				/>
-			</p>
-			{(this.props.taskList || []).map(task => <Task
-				task={task}
-			/>)}
-		</>
+		return <table><tbody><tr><td></td><td></td><td><input
+			onClick={() => alert('TO DO')}
+			type='button'
+			value='stop'
+		/></td></tr>{(this.props.taskList || []).map(task => <Task
+			task={task}
+		/>)}</tbody></table>
 	}
 }
 

@@ -3,15 +3,15 @@ import React from 'react';
 export default class Task extends React.Component {
 
 	render() {
-		return <p>{
+		return <tr><td>{
 			this.props.task.name
-		}&emsp;{
-				this.props.task.active
-					? 'active'
-					: ''
-			}&emsp;<input
-				type='button'
-				value='start'
-			/></p>;
+		}</td><td>{
+			this.props.task.active
+				? 'active'
+				: ''
+		}</td><td><input
+			type='button'
+			value='start'
+		/></td></tr>;
 	}
 }
