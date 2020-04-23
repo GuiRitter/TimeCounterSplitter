@@ -8,6 +8,8 @@ class Task extends React.Component {
 		return <tr><td>{
 			this.props.task.name
 		}</td><td>{
+			JSON.stringify(this.props.task.updatedDateTime)
+		}</td><td>{
 			this.props.task.active
 				? 'active'
 				: ''

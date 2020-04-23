@@ -1,5 +1,7 @@
 import * as type from './type';
 
+let moment = require('moment');
+
 const initialState = {
 
 	taskList: []
@@ -16,6 +18,7 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				taskList: state.taskList.concat([{
+					count: moment.duration(0),
 					name: action.newTaskName
 				}].filter(newTask => state.taskList.every(task => newTask.name !== task.name)))
 			};
@@ -23,10 +26,21 @@ const reducer = (state = initialState, action) => {
 		case type.SET_ACTIVE:
 			return {
 				...state,
-				taskList: state.taskList.map(task => ({
-					...task,
-					active: task.name === action.taskName
-				}))
+				taskList: state.taskList.map(task => {
+					let previouslyActive = task.active;
+					let currentlyActive = task.name === action.taskName;
+					let updatedDateTime = currentlyActive ? moment() : null;
+					let count = task.count;
+					if (previouslyActive) {
+						count = count.add(moment()); // wrong!
+					}
+					return {
+						...task,
+						active: currentlyActive,
+						count,
+						updatedDateTime
+					};
+				})
 			};
 
 		default: return state;
