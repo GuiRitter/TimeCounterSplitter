@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as action from './flux/action';
 
+let moment = require('moment');
+
 class Task extends React.Component {
 
 	render() {
@@ -16,7 +18,7 @@ class Task extends React.Component {
 				? 'active'
 				: ''
 		}</td><td>{
-			this.props.task.count
+			moment.duration(this.props.task.count).asHours()
 		}</td></tr>;
 	}
 }
