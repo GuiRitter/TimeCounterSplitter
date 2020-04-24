@@ -5,19 +5,19 @@ import * as action from './flux/action';
 class Task extends React.Component {
 
 	render() {
-		return <tr><td>{
+		return <tr><td><input
+			onClick={() => this.props.setActive(this.props.task.name)}
+			type='button'
+			value='start'
+		/></td><td>{
 			this.props.task.name
-		}</td><td>{
-			JSON.stringify(this.props.task.updatedDateTime)
 		}</td><td>{
 			this.props.task.active
 				? 'active'
 				: ''
-		}</td><td><input
-			onClick={() => this.props.setActive(this.props.task.name)}
-			type='button'
-			value='start'
-		/></td></tr>;
+		}</td><td>{
+			this.props.task.count
+		}</td></tr>;
 	}
 }
 

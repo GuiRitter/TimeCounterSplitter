@@ -18,7 +18,7 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				taskList: state.taskList.concat([{
-					count: moment.duration(0),
+					count: 0,
 					name: action.newTaskName
 				}].filter(newTask => state.taskList.every(task => newTask.name !== task.name)))
 			};
@@ -29,10 +29,11 @@ const reducer = (state = initialState, action) => {
 				taskList: state.taskList.map(task => {
 					let previouslyActive = task.active;
 					let currentlyActive = task.name === action.taskName;
-					let updatedDateTime = currentlyActive ? moment() : null;
+					let now = moment();
+					let updatedDateTime = currentlyActive ? now : null;
 					let count = task.count;
 					if (previouslyActive) {
-						count = count.add(moment()); // wrong!
+						count += now.diff(task.updatedDateTime);
 					}
 					return {
 						...task,
