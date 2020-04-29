@@ -18,6 +18,7 @@ class TaskList extends React.Component {
 			buildCell('name'),
 			buildCell('active'),
 			buildCell('count'),
+			buildCell('proportional'),
 		)}{(this.props.taskList || []).map(task => <Task
 			key={task.name}
 			task={task}

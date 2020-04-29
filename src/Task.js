@@ -14,6 +14,8 @@ class Task extends React.Component {
 	render() {
 		let count = moment.duration(this.props.task.count).asHours();
 
+		let proportional = ((8.8 * count) / (this.props.countSum || 0)) || 0;
+
 		return buildRow(
 			buildCell(this.buildKey('button'), <input
 				onClick={() => this.props.setActive(this.props.task.name)}
@@ -24,14 +26,20 @@ class Task extends React.Component {
 			buildCell(this.buildKey('active'), this.props.task.active
 				? 'active'
 				: ''),
-			buildCell(this.buildKey('count'), round(count, 1), count)
+			buildCell(this.buildKey('count'), round(count, 1), count),
+			buildCell(this.buildKey('proportional'), round(proportional, 1), proportional)
 		);
 	}
 }
+
+const mapStateToProps = state => ({
+
+	countSum: state.reducer.countSum
+});
 
 const mapDispatchToProps = dispatch => ({
 
 	setActive: taskName => dispatch(action.setActive(taskName))
 });
 
-export default connect(null, mapDispatchToProps, null, { forwardRef: true })(Task);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Task);
