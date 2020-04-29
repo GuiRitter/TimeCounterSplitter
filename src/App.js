@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import * as action from './flux/action';
 
+import CountSumBinder from './flux/binder/CountSumBinder';
+
 import TaskList from './TaskList';
 
 class App extends React.Component {
@@ -32,6 +34,7 @@ class App extends React.Component {
 				value='add'
 			/>
 			<TaskList />
+			<CountSumBinder />
 		</>
 	}
 }

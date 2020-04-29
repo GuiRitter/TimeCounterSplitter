@@ -4,6 +4,7 @@ let moment = require('moment');
 
 const initialState = {
 
+	countSum: 0,
 	taskList: []
 };
 
@@ -42,6 +43,12 @@ const reducer = (state = initialState, action) => {
 						updatedDateTime
 					};
 				})
+			};
+
+		case type.UPDATE_COUNT_SUM:
+			return {
+				...state,
+				countSum: action.countSum
 			};
 
 		default: return state;
