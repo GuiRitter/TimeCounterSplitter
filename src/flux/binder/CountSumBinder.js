@@ -13,8 +13,6 @@ class CountSumBinder extends React.Component {
 			return;
 		}
 		this.props.updateCountSum(countSum);
-
-		alert(countSum);
 	}
 
 	render() {

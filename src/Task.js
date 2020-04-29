@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { round } from './util';
+import { buildCell, buildRow, round } from './util';
 
 import * as action from './flux/action';
 
@@ -9,22 +9,23 @@ let moment = require('moment');
 
 class Task extends React.Component {
 
+	buildKey = key => `task_${this.props.task.name}_${key}`;
+
 	render() {
 		let count = moment.duration(this.props.task.count).asHours();
 
-		return <tr><td><input
-			onClick={() => this.props.setActive(this.props.task.name)}
-			type='button'
-			value='start'
-		/></td><td>{
-			this.props.task.name
-		}</td><td>{
-			this.props.task.active
+		return buildRow(
+			buildCell(this.buildKey('button'), <input
+				onClick={() => this.props.setActive(this.props.task.name)}
+				type='button'
+				value='start'
+			/>),
+			buildCell(this.buildKey('name'), this.props.task.name),
+			buildCell(this.buildKey('active'), this.props.task.active
 				? 'active'
-				: ''
-		}</td><td title={count}>{
-			round(count, 1)
-		}</td></tr>;
+				: ''),
+			buildCell(this.buildKey('count'), round(count, 1), count)
+		);
 	}
 }
 
