@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { buildCell, buildRow, round } from './util';
 
 import * as action from './flux/action';
+import { getCountSum } from './selector'
 
 let moment = require('moment');
 
@@ -34,7 +35,7 @@ class Task extends React.Component {
 
 const mapStateToProps = state => ({
 
-	countSum: state.reducer.countSum
+	countSum: getCountSum(state)
 });
 
 const mapDispatchToProps = dispatch => ({
