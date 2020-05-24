@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 
 import * as action from './flux/action';
 
-import TaskList from './TaskList';
+import { buildCell, buildRow } from './util';
+
+import Task from './Task';
 
 class App extends React.Component {
 
@@ -22,23 +24,44 @@ class App extends React.Component {
 	}
 
 	render() {
-		return <>
-			<input
-				ref={ref => { if (ref) { this.newTaskField = ref; } }}
-			/>
-			<input
+		return <table><tbody>{buildRow(
+			buildCell('add', <input
 				onClick={() => this.props.addTask(this.newTaskField.value)}
 				type='button'
 				value='add'
-			/>
-			<TaskList />
-		</>
+			/>),
+			buildCell('name', <input
+				ref={ref => { if (ref) { this.newTaskField = ref; } }}
+			/>),
+			buildCell('active'),
+			buildCell('count'),
+			buildCell('proportional'),
+		)}{buildRow(
+			buildCell('stop', <input
+				onClick={() => this.props.setActive('')}
+				type='button'
+				value='stop'
+			/>),
+			buildCell('name'),
+			buildCell('active'),
+			buildCell('count'),
+			buildCell('proportional'),
+		)}{(this.props.taskList || []).map(task => <Task
+			key={task.name}
+			task={task}
+		/>)}</tbody></table>;
 	}
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = state => ({
 
-	addTask: taskName => dispatch(action.addTask(taskName))
+	taskList: state.reducer.taskList
 });
 
-export default connect(null, mapDispatchToProps, null, { forwardRef: true })(App);
+const mapDispatchToProps = dispatch => ({
+
+	addTask: taskName => dispatch(action.addTask(taskName)),
+	setActive: taskName => dispatch(action.setActive(taskName))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(App);
