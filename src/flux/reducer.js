@@ -23,17 +23,29 @@ const reducer = (state = initialState, action) => {
 				}].filter(newTask => state.taskList.every(task => newTask.name !== task.name)))
 			};
 
+		case type.ADD_TIME:
 		case type.SET_ACTIVE:
 			return {
 				...state,
 				taskList: state.taskList.map(task => {
+					let selectedTask = task.name === action.taskName;
 					let previouslyActive = task.active;
-					let currentlyActive = task.name === action.taskName;
+					let currentlyActive = ({
+						[type.ADD_TIME]: task.active,
+						[type.SET_ACTIVE]: selectedTask
+					})[action.type];
 					let now = moment();
 					let updatedDateTime = currentlyActive ? now : null;
 					let count = task.count;
 					if (previouslyActive) {
 						count += now.diff(task.updatedDateTime);
+					}
+					if (action.timeBegin && action.timeEnd && selectedTask) {
+						let timeBegin = moment(action.timeBegin, 'HH:mm', true);
+						let timeEnd = moment(action.timeEnd, 'HH:mm', true);
+						if (timeBegin.isValid() && timeEnd.isValid()) {
+							count += timeEnd.diff(timeBegin);
+						}
 					}
 					return {
 						...task,

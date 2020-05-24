@@ -34,8 +34,13 @@ class App extends React.Component {
 				ref={ref => { if (ref) { this.newTaskField = ref; } }}
 			/>),
 			buildCell('active'),
-			buildCell('count'),
-			buildCell('proportional'),
+			buildCell('count', <input
+				ref={ref => { if (ref) { this.timeBeginField = ref; } }}
+			/>),
+			buildCell('proportional', <input
+				ref={ref => { if (ref) { this.timeEndField = ref; } }}
+			/>),
+			buildCell('addTime')
 		)}{buildRow(
 			buildCell('stop', <input
 				onClick={() => this.props.setActive('')}
@@ -46,9 +51,12 @@ class App extends React.Component {
 			buildCell('active'),
 			buildCell('count'),
 			buildCell('proportional'),
+			buildCell('addTime')
 		)}{(this.props.taskList || []).map(task => <Task
 			key={task.name}
 			task={task}
+			timeBeginField={this.timeBeginField}
+			timeEndField={this.timeEndField}
 		/>)}</tbody></table>;
 	}
 }
