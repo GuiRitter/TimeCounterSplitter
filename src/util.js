@@ -1,10 +1,15 @@
-import React from 'react';
+import React from "react";
 
 export const buildCell = (key, content, attributes) => <td
-    {...attributes}
-    key={key}
+	{...attributes}
+	key={key}
 >{content}</td>;
 
 export const buildRow = (...cellList) => <tr>{cellList}</tr>;
 
-export const round = (value, digits) => Math.floor(value * (10 ** digits)) / (10 ** digits)
+export const round = (value, digits) => Math.floor(value * (10 ** digits)) / (10 ** digits);
+
+export const updateLocalStorage = state => {
+	localStorage.setItem("state", JSON.stringify(state));
+	return state;
+}

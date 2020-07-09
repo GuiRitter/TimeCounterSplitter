@@ -21,6 +21,8 @@ class App extends React.Component {
 			// Chrome requires returnValue to be set
 			e.returnValue = '';
 		});
+
+		this.props.restoreFromLocalStorage();
 	}
 
 	render() {
@@ -69,6 +71,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
 	addTask: taskName => dispatch(action.addTask(taskName)),
+	restoreFromLocalStorage: () => dispatch(action.restoredFromLocalStorage()),
 	setActive: taskName => dispatch(action.setActive(taskName))
 });
 

@@ -12,6 +12,10 @@ export const addTask = newTaskName => ({
 	newTaskName
 });
 
+export const restoredFromLocalStorage = () => ({
+	type: type.RESTORE_FROM_LOCAL_STORAGE
+});
+
 export const setActive = taskName => ({
 	type: type.SET_ACTIVE,
 	taskName
