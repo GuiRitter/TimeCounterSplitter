@@ -58,6 +58,10 @@ const reducer = (state = initialState, action) => {
 				})
 			});
 
+		case type.CLEAR_LOCAL_STORAGE:
+			localStorage.clear();
+			return initialState;
+
 		case type.RESTORE_FROM_LOCAL_STORAGE:
 			return JSON.parse(localStorage.getItem('state')) || initialState;
 

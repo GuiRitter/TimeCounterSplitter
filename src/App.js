@@ -26,7 +26,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		return <table><tbody>{buildRow(
+		return <><table><tbody>{buildRow(
 			buildCell('add', <input
 				onClick={() => this.props.addTask(this.newTaskField.value)}
 				type='button'
@@ -59,7 +59,11 @@ class App extends React.Component {
 			task={task}
 			timeBeginField={this.timeBeginField}
 			timeEndField={this.timeEndField}
-		/>)}</tbody></table>;
+		/>)}</tbody></table><input
+		onClick={() => this.props.clearFromLocalStorage()}
+			type='button'
+			value='clear storage'
+		/></>;
 	}
 }
 
@@ -71,6 +75,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
 	addTask: taskName => dispatch(action.addTask(taskName)),
+	clearFromLocalStorage: () => dispatch(action.clearFromLocalStorage()),
 	restoreFromLocalStorage: () => dispatch(action.restoredFromLocalStorage()),
 	setActive: taskName => dispatch(action.setActive(taskName))
 });

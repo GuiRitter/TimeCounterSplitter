@@ -12,6 +12,18 @@ export const addTask = newTaskName => ({
 	newTaskName
 });
 
+export const clearFromLocalStorage = () => {
+
+	if (!window.confirm('sure?')) {
+		return {
+			type: type.NO_OP
+		}
+	}
+	return {
+		type: type.CLEAR_LOCAL_STORAGE
+	};
+};
+
 export const restoredFromLocalStorage = () => ({
 	type: type.RESTORE_FROM_LOCAL_STORAGE
 });
