@@ -1,4 +1,5 @@
 import * as type from './type';
+import * as state from '../constant/state';
 
 import { updateLocalStorage } from '../util';
 
@@ -6,30 +7,31 @@ let moment = require('moment');
 
 const initialState = {
 
+	state: state.TASK_LIST,
 	taskList: []
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (currentState = initialState, action) => {
 
 	switch (action.type) {
 
 		case type.ADD_TASK:
 			if ((!(action.newTaskName)) || (!(action.newTaskName.trim()))) {
-				return state;
+				return currentState;
 			}
 			return updateLocalStorage({
-				...state,
-				taskList: state.taskList.concat([{
+				...currentState,
+				taskList: currentState.taskList.concat([{
 					count: 0,
 					name: action.newTaskName
-				}].filter(newTask => state.taskList.every(task => newTask.name !== task.name)))
+				}].filter(newTask => currentState.taskList.every(task => newTask.name !== task.name)))
 			});
 
 		case type.ADD_TIME:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
-				...state,
-				taskList: state.taskList.map(task => {
+				...currentState,
+				taskList: currentState.taskList.map(task => {
 					let selectedTask = task.name === action.taskName;
 					let previouslyActive = task.active;
 					let currentlyActive = {
@@ -62,10 +64,16 @@ const reducer = (state = initialState, action) => {
 			localStorage.clear();
 			return initialState;
 
+		case type.NAVIGATION:
+			return updateLocalStorage({
+				...currentState,
+				state: action.state
+			});
+
 		case type.RESTORE_FROM_LOCAL_STORAGE:
 			return JSON.parse(localStorage.getItem('state')) || initialState;
 
-		default: return state;
+		default: return currentState;
 	}
 };
 

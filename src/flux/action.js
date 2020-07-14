@@ -24,7 +24,12 @@ export const clearFromLocalStorage = () => {
 	};
 };
 
-export const restoredFromLocalStorage = () => ({
+export const navigate = state => ({
+	type: type.NAVIGATION,
+	state
+});
+
+export const restoreFromLocalStorage = () => ({
 	type: type.RESTORE_FROM_LOCAL_STORAGE
 });
 
