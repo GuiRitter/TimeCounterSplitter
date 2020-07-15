@@ -12,6 +12,10 @@ class ActionMenu extends React.Component {
 			type='button'
 			value='back'
 		/><input
+			onClick={() => this.props.navigate(state.ACTION_ADD)}
+			type='button'
+			value='add'
+		/><input
 			onClick={() => this.props.clearFromLocalStorage()}
 			type='button'
 			value='clear storage'

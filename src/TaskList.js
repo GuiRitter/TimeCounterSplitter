@@ -12,14 +12,8 @@ class taskList extends React.Component {
 
 	render() {
 		return <><table><tbody>{buildRow(
-			buildCell('add', <input
-				onClick={() => this.props.addTask(this.newTaskField.value)}
-				type='button'
-				value='add'
-			/>),
-			buildCell('name', <input
-				ref={ref => { if (ref) { this.newTaskField = ref; } }}
-			/>),
+			buildCell('add'),
+			buildCell('name'),
 			buildCell('active'),
 			buildCell('count', <input
 				ref={ref => { if (ref) { this.timeBeginField = ref; } }}

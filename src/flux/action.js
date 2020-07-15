@@ -1,3 +1,4 @@
+import * as  state from '../constant/state';
 import * as type from './type';
 
 export const addTime = (taskName, timeBegin, timeEnd) => ({
@@ -7,10 +8,13 @@ export const addTime = (taskName, timeBegin, timeEnd) => ({
 	timeEnd
 });
 
-export const addTask = newTaskName => ({
-	type: type.ADD_TASK,
-	newTaskName
-});
+export const addTask = newTaskName => dispatch => {
+	dispatch({
+		type: type.ADD_TASK,
+		newTaskName
+	});
+	dispatch(navigate(state.TASK_LIST));
+};
 
 export const clearFromLocalStorage = () => {
 

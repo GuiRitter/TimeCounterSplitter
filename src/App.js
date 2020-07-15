@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as action from './flux/action';
 import * as state from './constant/state';
 
+import Add from './Add';
 import ActionMenu from './ActionMenu';
 import TaskList from './TaskList';
 
@@ -27,6 +28,7 @@ class App extends React.Component {
 
 	render() {
 		switch (this.props.state || state.TASK_LIST) {
+			case state.ACTION_ADD: return <Add/>;
 			case state.ACTION_MENU: return <ActionMenu/>;
 			case state.TASK_LIST: return <TaskList/>;
 			default: return null;
