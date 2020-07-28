@@ -13,7 +13,7 @@ class taskList extends React.Component {
 	render() {
 		return <><table><tbody>{(!this.props.showInput) ? null : buildRow(
 			buildCell('stop', <input
-				onClick={this.props.setActive}
+				onClick={() => this.props.setActive(null)}
 				type='button'
 				value='stop'
 			/>),
@@ -21,6 +21,7 @@ class taskList extends React.Component {
 			buildCell('active'),
 			buildCell('count', 'count'),
 			buildCell('proportional', 'ratio'),
+			buildCell('lastStop', 'last stop'),
 			buildCell('action')
 		)}{(this.props.taskList || []).map(task => <Task
 			key={task.name}
