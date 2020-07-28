@@ -1,11 +1,12 @@
-import * as  state from '../constant/state';
+import * as state from '../constant/state';
 import * as type from './type';
 
-export const addTime = (taskName, timeBegin, timeEnd) => ({
-	type: type.ADD_TIME,
+export const adjustTime = (taskName, timeLeft, timeRight, operation) => ({
+	type: type.ADJUST_TIME,
+	operation,
 	taskName,
-	timeBegin,
-	timeEnd
+	timeLeft,
+	timeRight
 });
 
 export const addTask = newTaskName => dispatch => {
@@ -28,9 +29,10 @@ export const clearFromLocalStorage = () => {
 	};
 };
 
-export const navigate = state => ({
+export const navigate = (state, selectedTask) => ({
 	type: type.NAVIGATION,
-	state
+	state,
+	selectedTask
 });
 
 export const restoreFromLocalStorage = () => ({

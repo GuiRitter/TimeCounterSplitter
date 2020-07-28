@@ -1,6 +1,6 @@
 export const ADD_TASK = 'ADD_TASK';
 
-export const ADD_TIME = 'ADD_TIME';
+export const ADJUST_TIME = 'ADJUST_TIME';
 
 export const CLEAR_LOCAL_STORAGE = 'CLEAR_LOCAL_STORAGE';
 

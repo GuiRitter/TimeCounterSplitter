@@ -11,38 +11,28 @@ import Task from './Task';
 class taskList extends React.Component {
 
 	render() {
-		return <><table><tbody>{buildRow(
-			buildCell('add'),
-			buildCell('name'),
-			buildCell('active'),
-			buildCell('count', <input
-				ref={ref => { if (ref) { this.timeBeginField = ref; } }}
-			/>),
-			buildCell('proportional', <input
-				ref={ref => { if (ref) { this.timeEndField = ref; } }}
-			/>),
-			buildCell('addTime')
-		)}{buildRow(
+		return <><table><tbody>{(!this.props.showInput) ? null : buildRow(
 			buildCell('stop', <input
 				onClick={this.props.setActive}
 				type='button'
 				value='stop'
 			/>),
-			buildCell('name'),
+			buildCell('name', 'name'),
 			buildCell('active'),
-			buildCell('count'),
-			buildCell('proportional'),
-			buildCell('addTime')
+			buildCell('count', 'count'),
+			buildCell('proportional', 'ratio'),
+			buildCell('action')
 		)}{(this.props.taskList || []).map(task => <Task
 			key={task.name}
+			showInput={this.props.showInput}
 			task={task}
 			timeBeginField={this.timeBeginField}
 			timeEndField={this.timeEndField}
-		/>)}</tbody></table><input
+		/>)}</tbody></table>{(!this.props.showInput) ? null : <input
 		onClick={() => this.props.navigate(state.ACTION_MENU)}
 			type='button'
 			value='actions'
-		/></>;
+		/>}</>;
 	}
 }
 
@@ -53,7 +43,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 
-	addTask: taskName => dispatch(action.addTask(taskName)),
 	navigate: state => dispatch(action.navigate(state)),
 	setActive: taskName => dispatch(action.setActive(taskName))
 });

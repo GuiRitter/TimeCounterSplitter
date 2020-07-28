@@ -1,4 +1,5 @@
 import * as type from './type';
+import * as operation from '../constant/operation';
 import * as state from '../constant/state';
 
 import { updateLocalStorage } from '../util';
@@ -7,6 +8,7 @@ let moment = require('moment');
 
 const initialState = {
 
+	selectedTask: null,
 	state: state.TASK_LIST,
 	taskList: []
 };
@@ -27,7 +29,7 @@ const reducer = (currentState = initialState, action) => {
 				}].filter(newTask => currentState.taskList.every(task => newTask.name !== task.name)))
 			});
 
-		case type.ADD_TIME:
+		case type.ADJUST_TIME:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
 				...currentState,
@@ -35,7 +37,7 @@ const reducer = (currentState = initialState, action) => {
 					let selectedTask = task.name === action.taskName;
 					let previouslyActive = task.active;
 					let currentlyActive = {
-						[type.ADD_TIME]: task.active,
+						[type.ADJUST_TIME]: task.active,
 						[type.SET_ACTIVE]: selectedTask
 					}[action.type];
 					let now = moment();
@@ -44,11 +46,15 @@ const reducer = (currentState = initialState, action) => {
 					if (previouslyActive) {
 						count += now.diff(task.updatedDateTime);
 					}
-					if (action.timeBegin && action.timeEnd && selectedTask) {
-						let timeBegin = moment(action.timeBegin, 'HH:mm', true);
-						let timeEnd = moment(action.timeEnd, 'HH:mm', true);
-						if (timeBegin.isValid() && timeEnd.isValid()) {
-							count += timeEnd.diff(timeBegin);
+					if (action.timeLeft && action.timeRight && selectedTask && action.operation) {
+						let timeLeft = moment(action.timeLeft, 'HH:mm', true);
+						let timeRight = moment(action.timeRight, 'HH:mm', true);
+						if (timeLeft.isValid() && timeRight.isValid()) {
+							let timeArray = [timeLeft, timeRight].sort();
+							count += {
+								[operation.INCREMENT]: timeArray[1].diff(timeArray[0]),
+								[operation.DECREMENT]: timeArray[0].diff(timeArray[1])
+							}[action.operation];
 						}
 					}
 					return {
@@ -67,7 +73,8 @@ const reducer = (currentState = initialState, action) => {
 		case type.NAVIGATION:
 			return updateLocalStorage({
 				...currentState,
-				state: action.state
+				state: action.state,
+				selectedTask: action.selectedTask
 			});
 
 		case type.RESTORE_FROM_LOCAL_STORAGE:

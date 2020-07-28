@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { buildCell, buildRow, round } from './util';
 
 import * as action from './flux/action';
+import * as state from './constant/state';
 import { getCountSum } from './selector'
 
 let moment = require('moment');
@@ -18,7 +19,7 @@ class Task extends React.Component {
 		let proportional = ((8.8 * this.props.task.count) / (this.props.countSum || 0)) || 0;
 
 		return buildRow(
-			buildCell(this.buildKey('start'), <input
+			buildCell(this.buildKey('start'), (!this.props.showInput) ? null : <input
 				onClick={() => this.props.setActive(this.props.task.name)}
 				type='button'
 				value='start'
@@ -29,13 +30,10 @@ class Task extends React.Component {
 				: ''),
 			buildCell(this.buildKey('count'), round(count, 1), { title: count }),
 			buildCell(this.buildKey('proportional'), round(proportional, 1), { title: proportional }),
-			buildCell(this.buildKey('addTime'), <input
-				onClick={() => this.props.addTime(
-					this.props.task.name,
-					this.props.timeBeginField.value,
-					this.props.timeEndField.value)}
+			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
+				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task.name)}
 				type='button'
-				value='add time'
+				value='action'
 			/>)
 		);
 	}
@@ -48,7 +46,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 
-	addTime: (taskName, timeBegin, timeEnd) => dispatch(action.addTime(taskName, timeBegin, timeEnd)),
+	navigate: (state, task) => dispatch(action.navigate(state, task)),
 	setActive: taskName => dispatch(action.setActive(taskName))
 });
 

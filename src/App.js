@@ -6,7 +6,9 @@ import * as state from './constant/state';
 
 import Add from './Add';
 import ActionMenu from './ActionMenu';
+import AdjustTime from './AdjustTime';
 import TaskList from './TaskList';
+import TaskActionMenu from './TaskActionMenu';
 
 class App extends React.Component {
 
@@ -30,7 +32,11 @@ class App extends React.Component {
 		switch (this.props.state || state.TASK_LIST) {
 			case state.ACTION_ADD: return <Add/>;
 			case state.ACTION_MENU: return <ActionMenu/>;
-			case state.TASK_LIST: return <TaskList/>;
+			case state.TASK_ACTION_MENU: return <TaskActionMenu/>;
+			case state.TASK_ADJUST_TIME: return <AdjustTime/>;
+			case state.TASK_LIST: return <TaskList
+				showInput={true}
+			/>;
 			default: return null;
 		}
 	}
