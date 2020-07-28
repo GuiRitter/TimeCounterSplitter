@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as action from './flux/action';
 import * as state from './constant/state';
+import { isAnyActive } from './selector'
 
 import Add from './Add';
 import ActionMenu from './ActionMenu';
@@ -26,6 +27,18 @@ class App extends React.Component {
 		});
 
 		this.props.restoreFromLocalStorage();
+
+		setTimeout(() => {
+			this.componentDidUpdate();
+		}, 0);
+	}
+
+	componentDidUpdate() {
+		if (this.props.isAnyActive) {
+			document.title = 'active · Time Counter Splitter';
+		} else {
+			document.title = 'stopped · Time Counter Splitter';
+		}
 	}
 
 	render() {
@@ -44,6 +57,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => ({
 
+	isAnyActive: isAnyActive(state),
 	state: state.reducer.state
 });
 
