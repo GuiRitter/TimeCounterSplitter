@@ -30,6 +30,7 @@ const reducer = (currentState = initialState, action) => {
 			});
 
 		case type.ADJUST_TIME:
+		case type.CHANGE_NAME:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
 				...currentState,
@@ -64,10 +65,15 @@ const reducer = (currentState = initialState, action) => {
 							}[action.operation];
 						}
 					}
+					let name = task.name;
+					if (selectedTask && action.newTaskName && action.newTaskName.trim()) {
+						name = action.newTaskName;
+					}
 					return {
 						...task,
 						active: currentlyActive,
 						count,
+						name,
 						updatedDateTime,
 						lastStartedDateTime,
 						lastStoppedDateTime

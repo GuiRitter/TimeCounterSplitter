@@ -29,6 +29,15 @@ export const clearFromLocalStorage = () => {
 	};
 };
 
+export const changeName = (taskName, newTaskName) => dispatch => {
+	dispatch({
+		type: type.CHANGE_NAME,
+		taskName,
+		newTaskName
+	});
+	dispatch(navigate(state.TASK_LIST));
+};
+
 export const navigate = (state, selectedTask) => ({
 	type: type.NAVIGATION,
 	state,

@@ -15,6 +15,10 @@ class TaskActionMenu extends React.Component {
 			onClick={() => this.props.navigate(state.TASK_ADJUST_TIME, this.props.selectedTask)}
 			type='button'
 			value='adjust time'
+		/><input
+			onClick={() => this.props.navigate(state.TASK_CHANGE_NAME, this.props.selectedTask)}
+			type='button'
+			value='change name'
 		/></>;
 	}
 }
