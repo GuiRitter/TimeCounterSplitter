@@ -21,19 +21,20 @@ class taskList extends React.Component {
 			buildCell('active'),
 			buildCell('count', 'count'),
 			buildCell('proportional', 'ratio'),
+			buildCell('lastStart', 'last start'),
 			buildCell('lastStop', 'last stop'),
-			buildCell('action')
+			buildCell('action', (!this.props.showInput) ? null : <input
+				onClick={() => this.props.navigate(state.ACTION_MENU)}
+				type='button'
+				value='actions'
+			/>)
 		)}{(this.props.taskList || []).map(task => <Task
 			key={task.name}
 			showInput={this.props.showInput}
 			task={task}
 			timeBeginField={this.timeBeginField}
 			timeEndField={this.timeEndField}
-		/>)}</tbody></table>{(!this.props.showInput) ? null : <input
-		onClick={() => this.props.navigate(state.ACTION_MENU)}
-			type='button'
-			value='actions'
-		/>}</>;
+		/>)}</tbody></table></>;
 	}
 }
 

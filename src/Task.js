@@ -30,6 +30,7 @@ class Task extends React.Component {
 				: ''),
 			buildCell(this.buildKey('count'), round(count, 1), { onClick: () => alert(count), title: count }),
 			buildCell(this.buildKey('proportional'), round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
+			buildCell(this.buildKey('lastStart'), this.props.task.lastStartedDateTime),
 			buildCell(this.buildKey('lastStop'), this.props.task.lastStoppedDateTime),
 			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
 				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task.name)}

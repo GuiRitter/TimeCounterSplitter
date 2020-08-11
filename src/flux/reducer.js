@@ -44,11 +44,14 @@ const reducer = (currentState = initialState, action) => {
 					let updatedDateTime = currentlyActive ? now : null;
 					let count = task.count;
 					let lastStoppedDateTime = task.lastStoppedDateTime;
+					let lastStartedDateTime = task.lastStartedDateTime;
 					if (previouslyActive) {
 						count += now.diff(task.updatedDateTime);
 						if (!currentlyActive) {
 							lastStoppedDateTime = now.format('HH:mm');
 						}
+					} else if (currentlyActive) {
+						lastStartedDateTime = now.format('HH:mm');
 					}
 					if (action.timeLeft && action.timeRight && selectedTask && action.operation) {
 						let timeLeft = moment(action.timeLeft, 'HH:mm', true);
@@ -66,6 +69,7 @@ const reducer = (currentState = initialState, action) => {
 						active: currentlyActive,
 						count,
 						updatedDateTime,
+						lastStartedDateTime,
 						lastStoppedDateTime
 					};
 				})
