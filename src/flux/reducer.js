@@ -2,6 +2,8 @@ import * as type from './type';
 import * as operation from '../constant/operation';
 import * as state from '../constant/state';
 
+import { LOCAL_STORAGE_NAME } from '../constant/system';
+
 import { updateLocalStorage } from '../util';
 
 let moment = require('moment');
@@ -82,7 +84,7 @@ const reducer = (currentState = initialState, action) => {
 			});
 
 		case type.CLEAR_LOCAL_STORAGE:
-			localStorage.clear();
+			localStorage.setItem(LOCAL_STORAGE_NAME, initialState);
 			return initialState;
 
 		case type.NAVIGATION:
@@ -93,7 +95,7 @@ const reducer = (currentState = initialState, action) => {
 			});
 
 		case type.RESTORE_FROM_LOCAL_STORAGE:
-			return JSON.parse(localStorage.getItem('state')) || initialState;
+			return JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME)) || initialState;
 
 		default: return currentState;
 	}
