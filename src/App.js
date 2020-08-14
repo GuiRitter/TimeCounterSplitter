@@ -12,6 +12,8 @@ import ChangeName from './ChangeName';
 import TaskList from './TaskList';
 import TaskActionMenu from './TaskActionMenu';
 
+import './App.css';
+
 class App extends React.Component {
 
 	/**
