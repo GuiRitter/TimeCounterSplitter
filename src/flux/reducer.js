@@ -84,7 +84,7 @@ const reducer = (currentState = initialState, action) => {
 			});
 
 		case type.CLEAR_LOCAL_STORAGE:
-			localStorage.setItem(LOCAL_STORAGE_NAME, initialState);
+			localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(initialState));
 			return initialState;
 
 		case type.NAVIGATION:
