@@ -18,6 +18,13 @@ export const getTaskListProportional = createSelector(
 	}))
 );
 
+export const getTaskName = (state, props) => ((props || {}).task || {}).name || "";
+
+export const getTaskProportional = createSelector(
+	[getTaskListProportional, getTaskName],
+	(taskListProportional, taskName) => (taskListProportional || []).find(task => taskName === task.name)
+);
+
 export const isAnyActive = createSelector(
 	[getTaskList],
 	taskList => (taskList || [])

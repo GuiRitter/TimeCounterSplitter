@@ -5,7 +5,7 @@ import { buildCell, buildRow, round } from './util';
 
 import * as action from './flux/action';
 import * as state from './constant/state';
-import { getCountSum } from './selector'
+import { getTaskProportional } from './selector'
 
 let moment = require('moment');
 
@@ -15,7 +15,9 @@ class Task extends React.Component {
 
 	render() {
 		let count = moment.duration(this.props.task.count).asHours();
-
+		
+		let proportional = (this.props.taskProportional || {}).proportional;
+		
 		return buildRow(
 			buildCell(this.buildKey('start'), (!this.props.showInput) ? null : <input
 				onClick={() => this.props.setActive(this.props.task.name)}
@@ -27,7 +29,7 @@ class Task extends React.Component {
 				? 'active'
 				: ''),
 			buildCell(this.buildKey('count'), round(count, 1), { onClick: () => alert(count), title: count }),
-			buildCell(this.buildKey('proportional'), round(this.props.proportional, 1), { onClick: () => alert(this.props.proportional), title: this.props.proportional }),
+			buildCell(this.buildKey('proportional'), round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
 			buildCell(this.buildKey('lastStart'), this.props.task.lastStartedDateTime),
 			buildCell(this.buildKey('lastStop'), this.props.task.lastStoppedDateTime),
 			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
@@ -39,9 +41,9 @@ class Task extends React.Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
 
-	countSum: getCountSum(state)
+	taskProportional: getTaskProportional(state, props)
 });
 
 const mapDispatchToProps = dispatch => ({
