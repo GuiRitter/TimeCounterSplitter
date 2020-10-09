@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as action from './flux/action';
 import * as state from './constant/state';
+import { getTaskListProportional } from './selector'
 
 import { buildCell, buildRow } from './util';
 
@@ -30,6 +31,7 @@ class taskList extends React.Component {
 			/>)
 		)}{(this.props.taskList || []).map(task => <Task
 			key={task.name}
+			proportional={(this.props.taskListProportional || []).find(taskProportional => task.name === taskProportional.name).proportional}
 			showInput={this.props.showInput}
 			task={task}
 			timeBeginField={this.timeBeginField}
@@ -40,6 +42,7 @@ class taskList extends React.Component {
 
 const mapStateToProps = state => ({
 
+	taskListProportional: getTaskListProportional(state),
 	taskList: state.reducer.taskList
 });
 
