@@ -5,7 +5,7 @@ import { buildCell, buildRow, round } from './util';
 
 import * as action from './flux/action';
 import * as state from './constant/state';
-import { getTaskProportional } from './selector'
+import { getTaskProportionalRounded } from './selector'
 
 let moment = require('moment');
 
@@ -43,7 +43,7 @@ class Task extends React.Component {
 
 const mapStateToProps = (state, props) => ({
 
-	taskProportional: getTaskProportional(state, props)
+	taskProportional: getTaskProportionalRounded(state, props)
 });
 
 const mapDispatchToProps = dispatch => ({
