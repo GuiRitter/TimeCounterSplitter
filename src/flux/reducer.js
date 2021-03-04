@@ -5,7 +5,7 @@ import * as state from '../constant/state';
 import { HOURS_PER_DAY } from '../constant/math';
 import { LOCAL_STORAGE_NAME } from '../constant/system';
 
-import { updateLocalStorage } from '../util';
+import { updateLocalStorage } from '../util/persistente';
 
 let moment = require('moment');
 

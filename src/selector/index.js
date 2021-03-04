@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { HOURS_PER_DAY } from '../constant/math';
-import { round } from '../util';
+import { round } from '../util/math';
 
 const getHoursPerDay = state => state.reducer.hoursPerDay || HOURS_PER_DAY;
 
