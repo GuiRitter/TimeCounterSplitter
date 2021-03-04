@@ -27,6 +27,7 @@ const reducer = (currentState = initialState, action) => {
 				...currentState,
 				taskList: currentState.taskList.concat([{
 					count: 0,
+					ignored: false,
 					name: action.newTaskName
 				}].filter(newTask => currentState.taskList.every(task => newTask.name !== task.name)))
 			});

@@ -33,7 +33,7 @@ class Task extends React.Component {
 			buildCell(this.buildKey('lastStart'), this.props.task.lastStartedDateTime),
 			buildCell(this.buildKey('lastStop'), this.props.task.lastStoppedDateTime),
 			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
-				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task.name)}
+				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task)}
 				type='button'
 				value='action'
 			/>)

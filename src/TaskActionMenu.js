@@ -7,18 +7,22 @@ import * as state from './constant/state';
 class TaskActionMenu extends React.Component {
 
 	render() {
-		return <><h1>{`actions for task ${this.props.selectedTask}`}</h1><input
+		return <><h1>{`actions for task ${this.props.selectedTask.name}`}</h1><input
 			onClick={() => this.props.navigate(state.TASK_LIST)}
 			type='button'
 			value='back'
 		/><input
-			onClick={() => this.props.navigate(state.TASK_ADJUST_TIME, this.props.selectedTask)}
+			onClick={() => this.props.navigate(state.TASK_ADJUST_TIME, this.props.selectedTask.name)}
 			type='button'
 			value='adjust time'
 		/><input
-			onClick={() => this.props.navigate(state.TASK_CHANGE_NAME, this.props.selectedTask)}
+			onClick={() => this.props.navigate(state.TASK_CHANGE_NAME, this.props.selectedTask.name)}
 			type='button'
 			value='change name'
+		/><input
+			onClick={() => alert('TO DO')}
+			type='button'
+			value='ignore' // regard
 		/></>;
 	}
 }

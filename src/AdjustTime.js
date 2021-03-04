@@ -10,7 +10,7 @@ import TaskList from './TaskList';
 class AdjustTime extends React.Component {
 
 	render() {
-		return <><h1>{`adjust task ${this.props.selectedTask}'s time`}</h1><input
+		return <><h1>{`adjust task ${this.props.selectedTask.name}'s time`}</h1><input
 			onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.selectedTask)}
 			type='button'
 			value='back'
@@ -20,7 +20,7 @@ class AdjustTime extends React.Component {
 			ref={ref => { if (ref) { this.timeRightField = ref; } }}
 		/><input
 			onClick={() => this.props.adjustTime(
-				this.props.selectedTask,
+				this.props.selectedTask.name,
 				this.timeLeftField.value,
 				this.timeRightField.value,
 				operation.INCREMENT
@@ -29,7 +29,7 @@ class AdjustTime extends React.Component {
 			value='increase time'
 		/><input
 			onClick={() => this.props.adjustTime(
-				this.props.selectedTask,
+				this.props.selectedTask.name,
 				this.timeLeftField.value,
 				this.timeRightField.value,
 				operation.DECREMENT

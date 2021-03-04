@@ -7,7 +7,7 @@ import * as state from './constant/state';
 class ChangeName extends React.Component {
 
 	render() {
-		return <><h1>{`new name for task ${this.props.selectedTask}`}</h1><input
+		return <><h1>{`new name for task ${this.props.selectedTask.name}`}</h1><input
 			onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.selectedTask)}
 			type='button'
 			value='back'
@@ -15,7 +15,7 @@ class ChangeName extends React.Component {
 			ref={ref => { if (ref) { this.nameField = ref; } }}
 		/><input
 			onClick={() => this.props.changeName(
-				this.props.selectedTask,
+				this.props.selectedTask.name,
 				this.nameField.value
 			)}
 			type='button'
