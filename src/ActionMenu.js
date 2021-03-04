@@ -14,11 +14,15 @@ class ActionMenu extends React.Component {
 		/><input
 			onClick={() => this.props.navigate(state.ACTION_ADD)}
 			type='button'
-			value='add'
+			value='add new task'
 		/><input
 			onClick={() => this.props.clearFromLocalStorage()}
 			type='button'
 			value='clear storage'
+		/><input
+			onClick={() => this.props.navigate(state.ACTION_SET_HOURS_PER_DAY)}
+			type='button'
+			value='set hours per day'
 		/></>;
 	}
 }

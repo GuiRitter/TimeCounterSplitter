@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 import { HOURS_PER_DAY } from '../constant/math';
 import { round } from '../util';
 
+const getHoursPerDay = state => state.reducer.hoursPerDay || HOURS_PER_DAY;
+
 const getTaskList = state => state.reducer.taskList || [];
 
 export const getCountSum = createSelector(
@@ -12,10 +14,10 @@ export const getCountSum = createSelector(
 );
 
 export const getTaskListProportional = createSelector(
-	[getTaskList, getCountSum],
-	(taskList, countSum) => (taskList || []).map(task => ({
+	[getTaskList, getCountSum, getHoursPerDay],
+	(taskList, countSum, hoursPerDay) => (taskList || []).map(task => ({
 		name: task.name,
-		proportional: ((HOURS_PER_DAY * (task.count || 0)) / (countSum || 0)) || 0
+		proportional: ((hoursPerDay * (task.count || 0)) / (countSum || 0)) || 0
 	}))
 );
 
@@ -33,15 +35,15 @@ export const getTaskProportional = createSelector(
  * It was a good source of inspiration, though.
  */
 export const getTaskListProportionalRounded = createSelector(
-	[getTaskListProportional],
-	taskList => {
+	[getTaskListProportional, getHoursPerDay],
+	(taskList, hoursPerDay) => {
 		taskList = (taskList || []);
 		if (taskList.length < 1) {
 			return taskList;
 		} else if (taskList.length < 2) {
 			return [{
 				name: taskList[0].name,
-				proportional: HOURS_PER_DAY
+				proportional: hoursPerDay
 			}];
 		} else {
 			taskList = taskList.sort(
@@ -54,7 +56,7 @@ export const getTaskListProportionalRounded = createSelector(
 					...task,
 					proportional: round(task.proportional, 1)
 				}));
-			smallest.proportional = taskListRest.reduce((previousSum, currentTask) => previousSum - currentTask.proportional, HOURS_PER_DAY);
+			smallest.proportional = taskListRest.reduce((previousSum, currentTask) => previousSum - currentTask.proportional, hoursPerDay);
 			taskList = taskListRest.concat(smallest)
 			console.log(JSON.stringify(taskList));
 		}

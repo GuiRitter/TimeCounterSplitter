@@ -15,3 +15,5 @@ export const updateLocalStorage = state => {
 	localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(state));
 	return state;
 }
+
+export const isNumberOrNumberAsString = input => (!isNaN(parseFloat(input))) && isFinite(input);

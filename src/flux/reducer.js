@@ -2,6 +2,7 @@ import * as type from './type';
 import * as operation from '../constant/operation';
 import * as state from '../constant/state';
 
+import { HOURS_PER_DAY } from '../constant/math';
 import { LOCAL_STORAGE_NAME } from '../constant/system';
 
 import { updateLocalStorage } from '../util';
@@ -10,6 +11,7 @@ let moment = require('moment');
 
 const initialState = {
 
+	hoursPerDay: HOURS_PER_DAY,
 	selectedTask: null,
 	state: state.TASK_LIST,
 	taskList: []
@@ -96,6 +98,12 @@ const reducer = (currentState = initialState, action) => {
 
 		case type.RESTORE_FROM_LOCAL_STORAGE:
 			return JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME)) || initialState;
+
+		case type.SET_HOURS_PER_DAY:
+			return updateLocalStorage({
+				...currentState,
+				hoursPerDay: action.hoursPerDay
+			});
 
 		default: return currentState;
 	}

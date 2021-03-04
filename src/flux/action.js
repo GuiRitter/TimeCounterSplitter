@@ -1,5 +1,6 @@
 import * as state from '../constant/state';
 import * as type from './type';
+import * as util from '../util';
 
 export const adjustTime = (taskName, timeLeft, timeRight, operation) => ({
 	type: type.ADJUST_TIME,
@@ -52,3 +53,13 @@ export const setActive = taskName => ({
 	type: type.SET_ACTIVE,
 	taskName
 });
+
+export const setHoursPerDay = hoursPerDay => dispatch => {
+	if (!util.isNumberOrNumberAsString(hoursPerDay)) {
+		return;
+	}
+	dispatch({
+		type: type.SET_HOURS_PER_DAY,
+		hoursPerDay: parseFloat(hoursPerDay)
+	});
+};

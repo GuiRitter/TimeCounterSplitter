@@ -9,6 +9,7 @@ import Add from './Add';
 import ActionMenu from './ActionMenu';
 import AdjustTime from './AdjustTime';
 import ChangeName from './ChangeName';
+import SetHoursPerDay from './SetHoursPerDay';
 import TaskList from './TaskList';
 import TaskActionMenu from './TaskActionMenu';
 
@@ -31,9 +32,7 @@ class App extends React.Component {
 
 		this.props.restoreFromLocalStorage();
 
-		setTimeout(() => {
-			this.componentDidUpdate();
-		}, 0);
+		setTimeout(() => this.componentDidUpdate(), 0);
 	}
 
 	componentDidUpdate() {
@@ -48,6 +47,7 @@ class App extends React.Component {
 		switch (this.props.state || state.TASK_LIST) {
 			case state.ACTION_ADD: return <Add/>;
 			case state.ACTION_MENU: return <ActionMenu/>;
+			case state.ACTION_SET_HOURS_PER_DAY: return <SetHoursPerDay/>;
 			case state.TASK_ACTION_MENU: return <TaskActionMenu/>;
 			case state.TASK_ADJUST_TIME: return <AdjustTime/>;
 			case state.TASK_CHANGE_NAME: return <ChangeName/>;
