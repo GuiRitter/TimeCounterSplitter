@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as action from './flux/action';
 import * as state from './constant/state';
 
-import { buildCell, buildRow } from './util';
+import { buildCell, buildRow } from './util/html';
 
 import Task from './Task';
 

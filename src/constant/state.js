@@ -2,6 +2,8 @@ export const ACTION_ADD = 'ACTION_ADD';
 
 export const ACTION_MENU = 'ACTION_MENU';
 
+export const ACTION_SET_HOURS_PER_DAY = 'ACTION_SET_HOURS_PER_DAY';
+
 export const TASK_ACTION_MENU = 'TASK_ACTION_MENU';
 
 export const TASK_ADJUST_TIME = 'TASK_ADJUST_TIME';

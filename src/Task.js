@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { buildCell, buildRow, round } from './util';
+import { buildCell, buildRow } from './util/html';
+import { round } from './util/math';
 
 import * as action from './flux/action';
 import * as state from './constant/state';
