@@ -39,6 +39,14 @@ export const changeName = (taskName, newTaskName) => dispatch => {
 	dispatch(navigate(state.TASK_LIST));
 };
 
+export const ignoreRegardTask = (taskName) => dispatch => {
+	dispatch({
+		type: type.IGNORE_REGARD_TASK,
+		taskName
+	});
+	dispatch(navigate(state.TASK_LIST));
+};
+
 export const navigate = (state, selectedTask) => ({
 	type: type.NAVIGATION,
 	state,

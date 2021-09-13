@@ -36,6 +36,7 @@ const reducer = (currentState = initialState, action) => {
 
 		case type.ADJUST_TIME:
 		case type.CHANGE_NAME:
+		case type.IGNORE_REGARD_TASK:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
 				...currentState,
@@ -74,10 +75,15 @@ const reducer = (currentState = initialState, action) => {
 					if (selectedTask && action.newTaskName && action.newTaskName.trim()) {
 						name = action.newTaskName;
 					}
+					let ignored = task.ignored;
+					if (selectedTask && (action.type === type.IGNORE_REGARD_TASK)) {
+						ignored = !ignored;
+					}
 					return {
 						...task,
 						active: currentlyActive,
 						count,
+						ignored,
 						name,
 						updatedDateTime,
 						lastStartedDateTime,

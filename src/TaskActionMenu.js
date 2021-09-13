@@ -20,9 +20,9 @@ class TaskActionMenu extends React.Component {
 			type='button'
 			value='change name'
 		/><input
-			onClick={() => alert('TO DO')}
+			onClick={() => this.props.ignoreRegardTask(this.props.selectedTask.name)}
 			type='button'
-			value='ignore' // regard
+			value={this.props.selectedTask.ignored ? 'regard' : 'ignore'}
 		/></>;
 	}
 }
@@ -34,6 +34,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 
+	ignoreRegardTask: (selectedTask) => dispatch(action.ignoreRegardTask(selectedTask)),
 	navigate: (state, selectedTask) => dispatch(action.navigate(state, selectedTask)),
 });
 
