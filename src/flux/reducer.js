@@ -43,6 +43,7 @@ const reducer = (currentState = initialState, action) => {
 					let previouslyActive = task.active;
 					let currentlyActive = {
 						[type.ADJUST_TIME]: task.active,
+						[type.CHANGE_NAME]: task.active,
 						[type.SET_ACTIVE]: selectedTask
 					}[action.type];
 					let now = moment();
@@ -90,10 +91,11 @@ const reducer = (currentState = initialState, action) => {
 			return initialState;
 
 		case type.NAVIGATION:
+			let selectedTask = action.selectedTask || null;
 			return updateLocalStorage({
 				...currentState,
 				state: action.state,
-				selectedTask: action.selectedTask
+				selectedTask
 			});
 
 		case type.RESTORE_FROM_LOCAL_STORAGE:
