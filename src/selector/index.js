@@ -76,3 +76,10 @@ export const isAnyActive = createSelector(
 	taskList => (taskList || [])
 		.reduce((previousBoolean, currentTask) => previousBoolean || currentTask.active, false)
 );
+
+const getSelectedTaskName = state => state.reducer.selectedTaskName || '';
+
+export const getSelectedTask = createSelector(
+	[getSelectedTaskName, getTaskList],
+	(selectedTaskName, taskList) => (taskList || []).find(task => (selectedTaskName || '') === task.name)
+);

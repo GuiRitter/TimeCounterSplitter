@@ -34,7 +34,7 @@ class Task extends React.Component {
 			buildCell(this.buildKey('lastStart'), this.props.task.lastStartedDateTime),
 			buildCell(this.buildKey('lastStop'), this.props.task.lastStoppedDateTime),
 			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
-				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task)}
+				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task.name)}
 				type='button'
 				value='action'
 			/>)
@@ -49,7 +49,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
 
-	navigate: (state, task) => dispatch(action.navigate(state, task)),
+	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName)),
 	setActive: taskName => dispatch(action.setActive(taskName))
 });
 

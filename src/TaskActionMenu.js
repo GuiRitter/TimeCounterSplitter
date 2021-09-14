@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as action from './flux/action';
 import * as state from './constant/state';
+import { getSelectedTask } from './selector/index';
 
 class TaskActionMenu extends React.Component {
 
@@ -29,13 +30,13 @@ class TaskActionMenu extends React.Component {
 
 const mapStateToProps = state => ({
 
-	selectedTask: state.reducer.selectedTask
+	selectedTask: getSelectedTask(state)
 });
 
 const mapDispatchToProps = dispatch => ({
 
-	ignoreRegardTask: (selectedTask) => dispatch(action.ignoreRegardTask(selectedTask)),
-	navigate: (state, selectedTask) => dispatch(action.navigate(state, selectedTask)),
+	ignoreRegardTask: taskName => dispatch(action.ignoreRegardTask(taskName)),
+	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(TaskActionMenu);
