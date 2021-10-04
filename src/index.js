@@ -31,6 +31,8 @@ ReactDOM.render(
 	<Provider store={store}>
 		<React.StrictMode>
 			<App />
+			{/* <br/><input onClick={() => document.getElementById('testOutput').value = localStorage.getItem('TimeCounterSplitter')} type='button' value='get local storage for test'/>
+			<br/><input id='testOutput'/> */}
 		</React.StrictMode>
 	</Provider>,
 	document.getElementById('root')
