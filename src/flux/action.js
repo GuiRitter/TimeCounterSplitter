@@ -39,10 +39,18 @@ export const changeName = (taskName, newTaskName) => dispatch => {
 	dispatch(navigate(state.TASK_LIST));
 };
 
-export const navigate = (state, selectedTask) => ({
+export const ignoreRegardTask = taskName => dispatch => {
+	dispatch({
+		type: type.IGNORE_REGARD_TASK,
+		taskName
+	});
+	dispatch(navigate(state.TASK_LIST));
+};
+
+export const navigate = (state, selectedTaskName) => ({
 	type: type.NAVIGATION,
 	state,
-	selectedTask
+	selectedTaskName
 });
 
 export const restoreFromLocalStorage = () => ({

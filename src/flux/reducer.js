@@ -12,12 +12,13 @@ let moment = require('moment');
 const initialState = {
 
 	hoursPerDay: HOURS_PER_DAY,
-	selectedTask: null,
+	selectedTaskName: null,
 	state: state.TASK_LIST,
 	taskList: []
 };
 
 const reducer = (currentState = initialState, action) => {
+	console.log((new Date()).toISOString(), 'reducer', { currentState, action });
 
 	switch (action.type) {
 
@@ -28,23 +29,30 @@ const reducer = (currentState = initialState, action) => {
 			return updateLocalStorage({
 				...currentState,
 				taskList: currentState.taskList.concat([{
+					active: false,
 					count: 0,
-					name: action.newTaskName
+					ignored: false,
+					lastStartedDateTime: null,
+					lastStoppedDateTime: null,
+					name: action.newTaskName,
+					updatedDateTime: null
 				}].filter(newTask => currentState.taskList.every(task => newTask.name !== task.name)))
 			});
 
 		case type.ADJUST_TIME:
 		case type.CHANGE_NAME:
+		case type.IGNORE_REGARD_TASK:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
 				...currentState,
 				taskList: currentState.taskList.map(task => {
-					let selectedTask = task.name === action.taskName;
+					let isSelectedTask = task.name === action.taskName;
 					let previouslyActive = task.active;
 					let currentlyActive = {
 						[type.ADJUST_TIME]: task.active,
 						[type.CHANGE_NAME]: task.active,
-						[type.SET_ACTIVE]: selectedTask
+						[type.IGNORE_REGARD_TASK]: task.active,
+						[type.SET_ACTIVE]: isSelectedTask
 					}[action.type];
 					let now = moment();
 					let updatedDateTime = currentlyActive ? now : null;
@@ -59,7 +67,7 @@ const reducer = (currentState = initialState, action) => {
 					} else if (currentlyActive) {
 						lastStartedDateTime = now.format('HH:mm');
 					}
-					if (action.timeLeft && action.timeRight && selectedTask && action.operation) {
+					if (action.timeLeft && action.timeRight && isSelectedTask && action.operation) {
 						let timeLeft = moment(action.timeLeft, 'HH:mm', true);
 						let timeRight = moment(action.timeRight, 'HH:mm', true);
 						if (timeLeft.isValid() && timeRight.isValid()) {
@@ -71,13 +79,18 @@ const reducer = (currentState = initialState, action) => {
 						}
 					}
 					let name = task.name;
-					if (selectedTask && action.newTaskName && action.newTaskName.trim()) {
+					if (isSelectedTask && action.newTaskName && action.newTaskName.trim()) {
 						name = action.newTaskName;
+					}
+					let ignored = task.ignored;
+					if (isSelectedTask && (action.type === type.IGNORE_REGARD_TASK)) {
+						ignored = !ignored;
 					}
 					return {
 						...task,
 						active: currentlyActive,
 						count,
+						ignored,
 						name,
 						updatedDateTime,
 						lastStartedDateTime,
@@ -91,11 +104,11 @@ const reducer = (currentState = initialState, action) => {
 			return initialState;
 
 		case type.NAVIGATION:
-			let selectedTask = action.selectedTask || null;
+			let selectedTaskName = action.selectedTaskName || null;
 			return updateLocalStorage({
 				...currentState,
 				state: action.state,
-				selectedTask
+				selectedTaskName
 			});
 
 		case type.RESTORE_FROM_LOCAL_STORAGE:

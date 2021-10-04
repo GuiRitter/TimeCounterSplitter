@@ -30,7 +30,7 @@ class Task extends React.Component {
 				? 'active'
 				: ''),
 			buildCell(this.buildKey('count'), round(count, 1), { onClick: () => alert(count), title: count }),
-			buildCell(this.buildKey('proportional'), round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
+			buildCell(this.buildKey('proportional'), this.props.task.ignored ? 'ignored' : round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
 			buildCell(this.buildKey('lastStart'), this.props.task.lastStartedDateTime),
 			buildCell(this.buildKey('lastStop'), this.props.task.lastStoppedDateTime),
 			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
@@ -49,7 +49,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
 
-	navigate: (state, task) => dispatch(action.navigate(state, task)),
+	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName)),
 	setActive: taskName => dispatch(action.setActive(taskName))
 });
 

@@ -7,14 +7,16 @@ const getHoursPerDay = state => state.reducer.hoursPerDay || HOURS_PER_DAY;
 
 const getTaskList = state => state.reducer.taskList || [];
 
-export const getCountSum = createSelector(
-	[getTaskList],
+const getRegardedTaskList = state => (state.reducer.taskList || []).filter(task => !task.ignored);
+
+export const getRegardedCountSum = createSelector(
+	[getRegardedTaskList],
 	taskList => (taskList || [])
 		.reduce((previousSum, currentTask) => previousSum + currentTask.count, 0)
 );
 
 export const getTaskListProportional = createSelector(
-	[getTaskList, getCountSum, getHoursPerDay],
+	[getRegardedTaskList, getRegardedCountSum, getHoursPerDay],
 	(taskList, countSum, hoursPerDay) => (taskList || []).map(task => ({
 		name: task.name,
 		proportional: ((hoursPerDay * (task.count || 0)) / (countSum || 0)) || 0
@@ -73,4 +75,11 @@ export const isAnyActive = createSelector(
 	[getTaskList],
 	taskList => (taskList || [])
 		.reduce((previousBoolean, currentTask) => previousBoolean || currentTask.active, false)
+);
+
+const getSelectedTaskName = state => state.reducer.selectedTaskName || '';
+
+export const getSelectedTask = createSelector(
+	[getSelectedTaskName, getTaskList],
+	(selectedTaskName, taskList) => (taskList || []).find(task => (selectedTaskName || '') === task.name)
 );
