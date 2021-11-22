@@ -16,6 +16,10 @@ class ActionMenu extends React.Component {
 			type='button'
 			value='add new task'
 		/><input
+			onClick={() => this.props.clearTaskCounts()}
+			type='button'
+			value='clear times'
+		/><input
 			onClick={() => this.props.clearFromLocalStorage()}
 			type='button'
 			value='clear storage'
@@ -30,6 +34,7 @@ class ActionMenu extends React.Component {
 const mapDispatchToProps = dispatch => ({
 
 	clearFromLocalStorage: () => dispatch(action.clearFromLocalStorage()),
+	clearTaskCounts: () => dispatch(action.clearTaskCounts()),
 	navigate: state => dispatch(action.navigate(state)),
 });
 

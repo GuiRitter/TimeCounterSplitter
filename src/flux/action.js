@@ -18,6 +18,18 @@ export const addTask = newTaskName => dispatch => {
 	dispatch(navigate(state.TASK_LIST));
 };
 
+export const clearTaskCounts = () => {
+
+	if (!window.confirm('sure?')) {
+		return {
+			type: type.NO_OP
+		}
+	}
+	return {
+		type: type.CLEAR_TASK_COUNTS
+	};
+};
+
 export const clearFromLocalStorage = () => {
 
 	if (!window.confirm('sure?')) {

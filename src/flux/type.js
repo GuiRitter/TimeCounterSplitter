@@ -4,6 +4,8 @@ export const ADJUST_TIME = 'ADJUST_TIME';
 
 export const CHANGE_NAME = 'CHANGE_NAME';
 
+export const CLEAR_TASK_COUNTS = 'CLEAR_TASK_COUNTS';
+
 export const CLEAR_LOCAL_STORAGE = 'CLEAR_LOCAL_STORAGE';
 
 export const IGNORE_REGARD_TASK = 'IGNORE_REGARD_TASK';

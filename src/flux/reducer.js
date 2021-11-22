@@ -41,6 +41,7 @@ const reducer = (currentState = initialState, action) => {
 
 		case type.ADJUST_TIME:
 		case type.CHANGE_NAME:
+		case type.CLEAR_TASK_COUNTS:
 		case type.IGNORE_REGARD_TASK:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
@@ -51,6 +52,7 @@ const reducer = (currentState = initialState, action) => {
 					let currentlyActive = {
 						[type.ADJUST_TIME]: task.active,
 						[type.CHANGE_NAME]: task.active,
+						[type.CLEAR_TASK_COUNTS]: task.active,
 						[type.IGNORE_REGARD_TASK]: task.active,
 						[type.SET_ACTIVE]: isSelectedTask
 					}[action.type];
@@ -78,6 +80,9 @@ const reducer = (currentState = initialState, action) => {
 							}[action.operation];
 							count = ((action.operation === operation.DECREMENT) && ((-timeDiff) > count)) ? 0 : (count + timeDiff);
 						}
+					}
+					else if (action.type === type.CLEAR_TASK_COUNTS) {
+						count = 0;
 					}
 					let name = task.name;
 					if (isSelectedTask && action.newTaskName && action.newTaskName.trim()) {
