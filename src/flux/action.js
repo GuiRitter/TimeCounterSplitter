@@ -65,6 +65,23 @@ export const navigate = (state, selectedTaskName) => ({
 	selectedTaskName
 });
 
+export const removeTask = taskToBeRemovedName => dispatch => {
+
+	if (!window.confirm('sure?')) {
+		dispatch({
+			type: type.NO_OP
+		});
+		return;
+	}
+
+	dispatch(navigate(state.TASK_LIST));
+
+	dispatch({
+		type: type.REMOVE_TASK,
+		taskToBeRemovedName
+	});
+};
+
 export const restoreFromLocalStorage = () => ({
 	type: type.RESTORE_FROM_LOCAL_STORAGE
 });

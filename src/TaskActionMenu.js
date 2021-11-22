@@ -24,6 +24,10 @@ class TaskActionMenu extends React.Component {
 			onClick={() => this.props.ignoreRegardTask(this.props.selectedTask.name)}
 			type='button'
 			value={this.props.selectedTask.ignored ? 'regard' : 'ignore'}
+		/><input
+			onClick={() => this.props.removeTask(this.props.selectedTask.name)}
+			type='button'
+			value={'remove'}
 		/></>;
 	}
 }
@@ -37,6 +41,7 @@ const mapDispatchToProps = dispatch => ({
 
 	ignoreRegardTask: taskName => dispatch(action.ignoreRegardTask(taskName)),
 	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName)),
+	removeTask: (selectedTaskName) => dispatch(action.removeTask(selectedTaskName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(TaskActionMenu);

@@ -12,6 +12,8 @@ export const IGNORE_REGARD_TASK = 'IGNORE_REGARD_TASK';
 
 export const NAVIGATION = 'NAVIGATION';
 
+export const REMOVE_TASK = 'REMOVE_TASK';
+
 export const RESTORE_FROM_LOCAL_STORAGE = 'RESTORE_FROM_LOCAL_STORAGE';
 
 export const NO_OP = 'NO_OP';

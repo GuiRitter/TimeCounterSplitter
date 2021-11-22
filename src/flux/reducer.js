@@ -43,10 +43,13 @@ const reducer = (currentState = initialState, action) => {
 		case type.CHANGE_NAME:
 		case type.CLEAR_TASK_COUNTS:
 		case type.IGNORE_REGARD_TASK:
+		case type.REMOVE_TASK:
 		case type.SET_ACTIVE:
 			return updateLocalStorage({
 				...currentState,
-				taskList: currentState.taskList.map(task => {
+				taskList: currentState.taskList.filter(task => 
+					(action.type !== type.REMOVE_TASK) || (task.name !== action.taskToBeRemovedName)
+				).map(task => {
 					let isSelectedTask = task.name === action.taskName;
 					let previouslyActive = task.active;
 					let currentlyActive = {
