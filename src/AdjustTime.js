@@ -16,6 +16,13 @@ class AdjustTime extends React.Component {
 			type='button'
 			value='back'
 		/><input
+			onClick={() => {
+				this.timeLeftField.value = '';
+				this.timeRightField.value = '';
+			}}
+			type='button'
+			value='clear'
+		/><input
 			ref={ref => { if (ref) { this.timeLeftField = ref; } }}
 		/><input
 			ref={ref => { if (ref) { this.timeRightField = ref; } }}

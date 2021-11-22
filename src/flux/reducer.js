@@ -72,10 +72,11 @@ const reducer = (currentState = initialState, action) => {
 						let timeRight = moment(action.timeRight, 'HH:mm', true);
 						if (timeLeft.isValid() && timeRight.isValid()) {
 							let timeArray = [timeLeft, timeRight].sort();
-							count += {
+							let timeDiff = {
 								[operation.INCREMENT]: timeArray[1].diff(timeArray[0]),
 								[operation.DECREMENT]: timeArray[0].diff(timeArray[1])
 							}[action.operation];
+							count = ((action.operation === operation.DECREMENT) && ((-timeDiff) > count)) ? 0 : (count + timeDiff);
 						}
 					}
 					let name = task.name;
