@@ -34,12 +34,15 @@ class taskList extends React.Component {
 			task={task}
 			timeBeginField={this.timeBeginField}
 			timeEndField={this.timeEndField}
-		/>)}</tbody></table></>;
+		/>)}{buildRow(
+			buildCell('hoursPerDay', `hours per day: ${this.props.hoursPerDay}`, { colspan: 8 })
+		)}</tbody></table></>;
 	}
 }
 
 const mapStateToProps = state => ({
 
+	hoursPerDay: state.reducer.hoursPerDay,
 	taskList: state.reducer.taskList
 });
 
