@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { HOURS_PER_DAY } from '../constant/math';
-import { round } from '../util/math';
+import { floor } from '../util/math';
 
 const getHoursPerDay = state => state.reducer.hoursPerDay || HOURS_PER_DAY;
 
@@ -56,7 +56,7 @@ export const getTaskListProportionalRounded = createSelector(
 				.slice(1)
 				.map(task => ({
 					...task,
-					proportional: round(task.proportional, 1)
+					proportional: floor(task.proportional, 1)
 				}));
 			smallest.proportional = taskListRest.reduce((previousSum, currentTask) => previousSum - currentTask.proportional, hoursPerDay);
 			taskList = taskListRest.concat(smallest)
