@@ -60,7 +60,6 @@ export const getTaskListProportionalRounded = createSelector(
 				}));
 			smallest.proportional = taskListRest.reduce((previousSum, currentTask) => previousSum - currentTask.proportional, hoursPerDay);
 			taskList = taskListRest.concat(smallest)
-			console.log(JSON.stringify(taskList));
 		}
 		return taskList;
 	}

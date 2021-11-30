@@ -35,7 +35,7 @@ class taskList extends React.Component {
 			timeBeginField={this.timeBeginField}
 			timeEndField={this.timeEndField}
 		/>)}{buildRow(
-			buildCell('hoursPerDay', `hours per day: ${this.props.hoursPerDay}`, { colspan: 8 })
+			buildCell('hoursPerDay', `hours per day: ${this.props.hoursPerDay}`, { colSpan: 8 })
 		)}</tbody></table></>;
 	}
 }
