@@ -48,18 +48,19 @@ export const getTaskListProportionalRounded = createSelector(
 				proportional: hoursPerDay
 			}];
 		} else {
-			taskList = taskList.sort(
-				(firstEl, secondEl) => (firstEl.proportional < secondEl.proportional) ? -1 : (firstEl.proportional > secondEl.proportional) ? 1 : 0
-			);
-			let smallest = taskList[0];
-			let taskListRest = taskList
-				.slice(1)
-				.map(task => ({
-					...task,
-					proportional: floor(task.proportional, 1)
-				}));
-			smallest.proportional = taskListRest.reduce((previousSum, currentTask) => previousSum - currentTask.proportional, hoursPerDay);
-			taskList = taskListRest.concat(smallest)
+			taskList = taskList.map(task => ({
+				...task,
+				proportionalFloored: floor(task.proportional, 1)
+			}));
+			let remainder = taskList.reduce((previousRemainder, currentTask) => previousRemainder - currentTask.proportionalFloored, hoursPerDay);
+			taskList = taskList.sort((taskA, taskB) => (taskB.proportional - taskB.proportionalFloored) - (taskA.proportional - taskA.proportionalFloored));
+			taskList = taskList.reduce((previousObject, currentTask) => ({ 
+				remainder: Math.max(0, previousObject.remainder - 0.1),
+				taskList: previousObject.taskList.concat({
+					...currentTask,
+					proportional: currentTask.proportionalFloored + Math.min(0.1, previousObject.remainder)
+				})
+			}), { remainder, taskList: [] }).taskList;
 		}
 		return taskList;
 	}
