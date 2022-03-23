@@ -57,6 +57,7 @@ const reducer = (currentState = initialState, action) => {
 					let currentlyActive = {
 						[type.ADJUST_TIME]: task.active,
 						[type.CHANGE_NAME]: task.active,
+						[type.CHANGE_OBSERVATION]: task.active,
 						[type.CLEAR_TASK_COUNTS]: task.active,
 						[type.IGNORE_REGARD_TASK]: task.active,
 						[type.SET_ACTIVE]: isSelectedTask
