@@ -42,7 +42,17 @@ export const clearFromLocalStorage = () => {
 	};
 };
 
-export const changeName = (taskName, newTaskName) => dispatch => {
+export const changeName = (taskName, newTaskName) => (dispatch, getState) => {
+	
+	let nameList = (((getState() || {}).reducer || {}).taskList || [])
+		.map(task => task.name)
+		.filter(name => name.localeCompare(taskName) !== 0);
+
+	if (nameList.includes(newTaskName)) {
+		alert(`there already exists a task called ${newTaskName}`);
+		return;
+	}
+
 	dispatch({
 		type: type.CHANGE_NAME,
 		taskName,
