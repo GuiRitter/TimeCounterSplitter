@@ -9,6 +9,7 @@ import Add from './Add';
 import ActionMenu from './ActionMenu';
 import AdjustTime from './AdjustTime';
 import ChangeName from './ChangeName';
+import ChangeObservation from './ChangeObservation';
 import SetHoursPerDay from './SetHoursPerDay';
 import TaskList from './TaskList';
 import TaskActionMenu from './TaskActionMenu';
@@ -49,6 +50,7 @@ class App extends React.Component {
 			case state.ACTION_MENU: return <ActionMenu/>;
 			case state.ACTION_SET_HOURS_PER_DAY: return <SetHoursPerDay/>;
 			case state.TASK_ACTION_MENU: return <TaskActionMenu/>;
+			case state.TASK_CHANGE_OBSERVATION: return <ChangeObservation/>;
 			case state.TASK_ADJUST_TIME: return <AdjustTime/>;
 			case state.TASK_CHANGE_NAME: return <ChangeName/>;
 			case state.TASK_LIST: return <TaskList

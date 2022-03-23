@@ -21,6 +21,10 @@ class TaskActionMenu extends React.Component {
 			type='button'
 			value='change name'
 		/><input
+			onClick={() => this.props.navigate(state.TASK_CHANGE_OBSERVATION, this.props.selectedTask.name)}
+			type='button'
+			value='change observation'
+		/><input
 			onClick={() => this.props.ignoreRegardTask(this.props.selectedTask.name)}
 			type='button'
 			value={this.props.selectedTask.ignored ? 'regard' : 'ignore'}

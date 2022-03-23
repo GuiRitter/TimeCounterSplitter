@@ -19,7 +19,7 @@ class Task extends React.Component {
 		
 		let proportional = (this.props.taskProportional || {}).proportional;
 
-		return buildRow(
+		return <>{buildRow(
 			buildCell(this.buildKey('start'), (!this.props.showInput) ? null : <input
 				onClick={() => this.props.setActive(this.props.task.name)}
 				type='button'
@@ -38,12 +38,13 @@ class Task extends React.Component {
 				type='button'
 				value='action'
 			/>)
-		);
+		)}{(this.props.observationVisible && this.props.task.observation) ? buildRow(buildCell('observation', this.props.task.observation, { colSpan: 8 })) : null}</>;
 	}
 }
 
 const mapStateToProps = (state, props) => ({
 
+	observationVisible: state.reducer.observationVisible,
 	taskProportional: getTaskProportionalRounded(state, props)
 });
 

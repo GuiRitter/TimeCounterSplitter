@@ -61,6 +61,16 @@ export const changeName = (taskName, newTaskName) => (dispatch, getState) => {
 	dispatch(navigate(state.TASK_LIST));
 };
 
+export const changeObservation = (taskName, newObservation) => dispatch => {
+	
+	dispatch({
+		type: type.CHANGE_OBSERVATION,
+		taskName,
+		newObservation
+	});
+	dispatch(navigate(state.TASK_LIST));
+};
+
 export const ignoreRegardTask = taskName => dispatch => {
 	dispatch({
 		type: type.IGNORE_REGARD_TASK,
@@ -109,4 +119,11 @@ export const setHoursPerDay = hoursPerDay => dispatch => {
 		type: type.SET_HOURS_PER_DAY,
 		hoursPerDay: parseFloat(hoursPerDay)
 	});
+};
+
+export const showHideObservation = () => dispatch => {
+	dispatch({
+		type: type.SHOW_HIDE_OBSERVATION
+	});
+	dispatch(navigate(state.TASK_LIST));
 };

@@ -4,6 +4,8 @@ export const ADJUST_TIME = 'ADJUST_TIME';
 
 export const CHANGE_NAME = 'CHANGE_NAME';
 
+export const CHANGE_OBSERVATION = 'CHANGE_OBSERVATION';
+
 export const CLEAR_TASK_COUNTS = 'CLEAR_TASK_COUNTS';
 
 export const CLEAR_LOCAL_STORAGE = 'CLEAR_LOCAL_STORAGE';
@@ -21,3 +23,5 @@ export const NO_OP = 'NO_OP';
 export const SET_ACTIVE = 'SET_ACTIVE';
 
 export const SET_HOURS_PER_DAY = 'SET_HOURS_PER_DAY';
+
+export const SHOW_HIDE_OBSERVATION = 'SHOW_HIDE_OBSERVATION';

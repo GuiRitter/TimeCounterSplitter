@@ -12,6 +12,7 @@ let moment = require('moment');
 const initialState = {
 
 	hoursPerDay: HOURS_PER_DAY,
+	observationVisible: false,
 	selectedTaskName: null,
 	state: state.TASK_LIST,
 	taskList: []
@@ -41,6 +42,7 @@ const reducer = (currentState = initialState, action) => {
 
 		case type.ADJUST_TIME:
 		case type.CHANGE_NAME:
+		case type.CHANGE_OBSERVATION:
 		case type.CLEAR_TASK_COUNTS:
 		case type.IGNORE_REGARD_TASK:
 		case type.REMOVE_TASK:
@@ -91,6 +93,10 @@ const reducer = (currentState = initialState, action) => {
 					if (isSelectedTask && action.newTaskName && action.newTaskName.trim()) {
 						name = action.newTaskName;
 					}
+					let observation = task.observation;
+					if (isSelectedTask && (action.type === type.CHANGE_OBSERVATION)) {
+						observation = action.newObservation;
+					}
 					let ignored = task.ignored;
 					if (isSelectedTask && (action.type === type.IGNORE_REGARD_TASK)) {
 						ignored = !ignored;
@@ -101,6 +107,7 @@ const reducer = (currentState = initialState, action) => {
 						count,
 						ignored,
 						name,
+						observation,
 						updatedDateTime,
 						lastStartedDateTime,
 						lastStoppedDateTime
@@ -127,6 +134,12 @@ const reducer = (currentState = initialState, action) => {
 			return updateLocalStorage({
 				...currentState,
 				hoursPerDay: action.hoursPerDay
+			});
+
+		case type.SHOW_HIDE_OBSERVATION:
+			return updateLocalStorage({
+				...currentState,
+				observationVisible: !currentState.observationVisible
 			});
 
 		default: return currentState;
