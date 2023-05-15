@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Time ⏱️🧮📊",
+  "name": "Time Counter & Splitter",
   "icons": [
     {
       "src": "favicon.ico",
