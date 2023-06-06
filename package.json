@@ -17,6 +17,7 @@
     "reselect": "^4.0.0"
   },
   "scripts": {
+    "i": "npx update-browserslist-db@latest && npm i",
     "start": "set BROWSER=none && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
