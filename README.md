@@ -1,3 +1,3 @@
 # Time Counter & Splitter
 
-The logo uses media from [The Stroke of the Hour clock face.svg](https://commons.wikimedia.org/wiki/File:The_Stroke_of_the_Hour_clock_face.svg).
+The logo uses media from [Hourglass modern.svg](https://commons.wikimedia.org/wiki/File:Hourglass_modern.svg) and [Hourglass modern 2.svg](https://commons.wikimedia.org/wiki/File:Hourglass_modern_2.svg).

@@ -5,12 +5,22 @@ import * as action from './flux/action';
 import * as state from './constant/state';
 
 import { buildCell, buildRow } from './util/html';
+import { round } from './util/math';
 
 import Task from './Task';
+
+let moment = require('moment');
 
 class taskList extends React.Component {
 
 	render() {
+
+		const countSum = (this.props.taskList || []).reduce((previousSum, currentTask) => previousSum + moment.duration((currentTask || {}).count || 0).asHours(), 0);
+
+		const countSumFormula = (this.props.taskList || [])
+			.map(task => moment.duration((task || {}).count || 0).asHours())
+			.join(' + ');
+
 		return <><table><tbody>{(!this.props.showInput) ? null : buildRow(
 			buildCell('stop', <input
 				onClick={() => this.props.setActive(null)}
@@ -35,7 +45,7 @@ class taskList extends React.Component {
 			timeBeginField={this.timeBeginField}
 			timeEndField={this.timeEndField}
 		/>)}{buildRow(
-			buildCell('hoursPerDay', `hours per day: ${this.props.hoursPerDay}`, { colSpan: 8 })
+			buildCell('hoursPerDay', `count sum: ${round(countSum, 2)} — hours per day: ${this.props.hoursPerDay}`, { colSpan: 8, onClick: () => alert(countSumFormula) })
 		)}</tbody></table></>;
 	}
 }
