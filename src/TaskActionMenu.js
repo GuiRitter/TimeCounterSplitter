@@ -1,51 +1,42 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as action from './flux/action';
 import * as state from './constant/state';
-import { getSelectedTask } from './selector/index';
 
-class TaskActionMenu extends React.Component {
+import { ignoreRegardTask, navigate, removeTask } from './flux/action';
+import { getSelectedTask } from './flux/selector';
 
-	render() {
-		return <><h1>{`actions for task ${this.props.selectedTask.name}`}</h1><input
-			onClick={() => this.props.navigate(state.TASK_LIST)}
-			type='button'
-			value='back'
-		/><input
-			onClick={() => this.props.navigate(state.TASK_ADJUST_TIME, this.props.selectedTask.name)}
-			type='button'
-			value='adjust time'
-		/><input
-			onClick={() => this.props.navigate(state.TASK_CHANGE_NAME, this.props.selectedTask.name)}
-			type='button'
-			value='change name'
-		/><input
-			onClick={() => this.props.navigate(state.TASK_CHANGE_OBSERVATION, this.props.selectedTask.name)}
-			type='button'
-			value='change observation'
-		/><input
-			onClick={() => this.props.ignoreRegardTask(this.props.selectedTask.name)}
-			type='button'
-			value={this.props.selectedTask.ignored ? 'regard' : 'ignore'}
-		/><input
-			onClick={() => this.props.removeTask(this.props.selectedTask.name)}
-			type='button'
-			value={'remove'}
-		/></>;
-	}
+function TaskActionMenu(props) {
+
+	const dispatch = useDispatch();
+
+	const selectedTask = useSelector(getSelectedTask) || {};
+
+	return <><h1>{`actions for task ${selectedTask.name}`}</h1><input
+		onClick={() => dispatch(navigate(state.TASK_LIST))}
+		type='button'
+		value='back'
+	/><input
+		onClick={() => dispatch(navigate(state.TASK_ADJUST_TIME, selectedTask.name))}
+		type='button'
+		value='adjust time'
+	/><input
+		onClick={() => dispatch(navigate(state.TASK_CHANGE_NAME, selectedTask.name))}
+		type='button'
+		value='change name'
+	/><input
+		onClick={() => dispatch(navigate(state.TASK_CHANGE_OBSERVATION, selectedTask.name))}
+		type='button'
+		value='change observation'
+	/><input
+		onClick={() => dispatch(ignoreRegardTask(selectedTask.name))}
+		type='button'
+		value={selectedTask.ignored ? 'regard' : 'ignore'}
+	/><input
+		onClick={() => dispatch(removeTask(selectedTask.name))}
+		type='button'
+		value='remove'
+	/></>;
 }
 
-const mapStateToProps = state => ({
-
-	selectedTask: getSelectedTask(state)
-});
-
-const mapDispatchToProps = dispatch => ({
-
-	ignoreRegardTask: taskName => dispatch(action.ignoreRegardTask(taskName)),
-	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName)),
-	removeTask: (selectedTaskName) => dispatch(action.removeTask(selectedTaskName))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(TaskActionMenu);
+export default TaskActionMenu;

@@ -1,48 +1,65 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { HOURS_PER_DAY } from './constant/math';
 
-import * as action from './flux/action';
 import * as state from './constant/state';
+import { navigate, setHoursPerDay } from './flux/action';
 
-class SetHoursPerDay extends React.Component {
+import { setRef } from './util/system';
 
-	componentDidMount() {
-		this.newHoursPerDayField.value = this.props.hoursPerDay || HOURS_PER_DAY;
-	}
+let newHoursPerDayField = null;
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.hoursPerDay !== this.props.hoursPerDay) {
-			alert(`hours per day changed from ${prevProps.hoursPerDay} to ${this.props.hoursPerDay}`);
-		}
-	}
-
-	render() {
-		return <><input
-			onClick={() => this.props.navigate(state.ACTION_MENU)}
-			type='button'
-			value='cancel'
-		/><input
-			ref={ref => { if (ref) { this.newHoursPerDayField = ref; } }}
-		/><input
-			onClick={() => this.props.setHoursPerDay(this.newHoursPerDayField.value)}
-			type='button'
-			value='set hours per day'
-		/></>;
+function componentDidMount(props, hoursPerDay) {
+	if (newHoursPerDayField) {
+		newHoursPerDayField.value = hoursPerDay || HOURS_PER_DAY;
 	}
 }
 
-const mapStateToProps = state => ({
+function componentDidUpdate(props, prevProps, hoursPerDay, prevHoursPerDay) {
+	if (prevHoursPerDay !== hoursPerDay) {
+		alert(`hours per day changed from ${prevHoursPerDay} to ${hoursPerDay}`);
+	}
+}
 
-	hoursPerDay: state.reducer.hoursPerDay,
-	state: state.reducer.state
-});
+function usePrevious(value) {
+	const ref = useRef();
+	useEffect(() => {
+		ref.current = value;
+	});
+	return ref.current;
+}
 
-const mapDispatchToProps = dispatch => ({
+function SetHoursPerDay(props) {
 
-	setHoursPerDay: hoursPerDayField => dispatch(action.setHoursPerDay(hoursPerDayField)),
-	navigate: state => dispatch(action.navigate(state))
-});
+	const didMountRef = useRef(false);
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(SetHoursPerDay);
+	const dispatch = useDispatch();
+
+	const hoursPerDay = useSelector(state => ((state || {}).reducer || {}).hoursPerDay || 0) || 0;
+
+	const { props: prevProps, hoursPerDay: prevHoursPerDay } = usePrevious({ props, hoursPerDay }) || {};
+
+	useEffect(() => {
+		if (didMountRef.current) {
+			componentDidUpdate(props, prevProps, hoursPerDay, prevHoursPerDay);
+		} else {
+			didMountRef.current = true;
+			componentDidMount(props, hoursPerDay);
+		}
+	});
+
+	return <><input
+		onClick={() => dispatch(navigate(state.ACTION_MENU))}
+		type='button'
+		value='cancel'
+	/><input
+		ref={setRef(ref => newHoursPerDayField = ref)}
+	/><input
+		onClick={() => dispatch(setHoursPerDay(newHoursPerDayField.value))}
+		type='button'
+		value='set hours per day'
+	/></>;
+}
+
+export default SetHoursPerDay;

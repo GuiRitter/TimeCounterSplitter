@@ -1,6 +1,6 @@
-import * as type from './type';
 import * as operation from '../constant/operation';
 import * as state from '../constant/state';
+import * as type from './type';
 
 import { HOURS_PER_DAY } from '../constant/math';
 import { LOCAL_STORAGE_NAME } from '../constant/system';
@@ -18,7 +18,7 @@ const initialState = {
 	taskList: []
 };
 
-const reducer = (currentState = initialState, action) => {
+const reducer = (currentState = initialState, action) => { // TODO https://redux.js.org/introduction/why-rtk-is-redux-today
 	console.log((new Date()).toISOString(), 'reducer', { currentState, action });
 
 	switch (action.type) {

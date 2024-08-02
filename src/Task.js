@@ -1,57 +1,47 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import * as state from './constant/state';
+
+import { navigate, setActive } from './flux/action';
+import { getTaskProportionalRounded } from './flux/selector';
 
 import { buildCell, buildRow } from './util/html';
 import { round } from './util/math';
 
-import * as action from './flux/action';
-import * as state from './constant/state';
-import { getTaskProportionalRounded } from './selector'
-
 let moment = require('moment');
 
-class Task extends React.Component {
+function Task(props) {
 
-	buildKey = key => `task_${this.props.task.name}_${key}`;
+	const buildKey = key => `task_${props.task.name}_${key}`;
 
-	render() {
-		let count = moment.duration(this.props.task.count).asHours();
-		
-		let proportional = (this.props.taskProportional || {}).proportional;
+	const count = moment.duration(props.task.count).asHours();
 
-		return <>{buildRow(
-			buildCell(this.buildKey('start'), (!this.props.showInput) ? null : <input
-				onClick={() => this.props.setActive(this.props.task.name)}
-				type='button'
-				value='start'
-			/>),
-			buildCell(this.buildKey('name'), this.props.task.name),
-			buildCell(this.buildKey('active'), this.props.task.active
-				? 'active'
-				: ''),
-			buildCell(this.buildKey('count'), round(count, 1), { onClick: () => alert(count), title: count }),
-			buildCell(this.buildKey('proportional'), this.props.task.ignored ? 'ignored' : round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
-			buildCell(this.buildKey('lastStart'), this.props.task.lastStartedDateTime),
-			buildCell(this.buildKey('lastStop'), this.props.task.lastStoppedDateTime),
-			buildCell(this.buildKey('taskAction'), (!this.props.showInput) ? null : <input
-				onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.task.name)}
-				type='button'
-				value='action'
-			/>)
-		)}{(this.props.observationVisible && this.props.task.observation) ? buildRow(buildCell('observation', this.props.task.observation, { colSpan: 8 })) : null}</>;
-	}
+	const dispatch = useDispatch();
+	
+	const observationVisible = useSelector(state => !!(((state || {}).reducer || {}).observationVisible && true));
+	const proportional = useSelector(state => getTaskProportionalRounded(state, props) || {}).proportional;
+
+	return <>{buildRow(
+		buildCell(buildKey('start'), (!props.showInput) ? null : <input
+			onClick={() => dispatch(setActive(props.task.name))}
+			type='button'
+			value='start'
+		/>),
+		buildCell(buildKey('name'), props.task.name),
+		buildCell(buildKey('active'), props.task.active
+			? 'active'
+			: ''),
+		buildCell(buildKey('count'), round(count, 1), { onClick: () => alert(count), title: count }),
+		buildCell(buildKey('proportional'), props.task.ignored ? 'ignored' : round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
+		buildCell(buildKey('lastStart'), props.task.lastStartedDateTime),
+		buildCell(buildKey('lastStop'), props.task.lastStoppedDateTime),
+		buildCell(buildKey('taskAction'), (!props.showInput) ? null : <input
+			onClick={() => dispatch(navigate(state.TASK_ACTION_MENU, props.task.name))}
+			type='button'
+			value='action'
+		/>)
+	)}{(observationVisible && props.task.observation) ? buildRow(buildCell('observation', props.task.observation, { colSpan: 8 })) : null}</>;
 }
 
-const mapStateToProps = (state, props) => ({
-
-	observationVisible: state.reducer.observationVisible,
-	taskProportional: getTaskProportionalRounded(state, props)
-});
-
-const mapDispatchToProps = dispatch => ({
-
-	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName)),
-	setActive: taskName => dispatch(action.setActive(taskName))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Task);
+export default Task;

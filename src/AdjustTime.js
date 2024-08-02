@@ -1,66 +1,61 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as action from './flux/action';
 import * as operation from './constant/operation';
 import * as state from './constant/state';
-import { getSelectedTask } from './selector/index';
+
+import { adjustTime, navigate } from './flux/action';
+
+import { getSelectedTask } from './flux/selector';
 
 import TaskList from './TaskList';
+import { setRef } from './util/system';
 
-class AdjustTime extends React.Component {
+let timeLeftField = null;
+let timeRightField = null;
 
-	render() {
-		return <><h1>{`adjust task ${this.props.selectedTask.name}'s time`}</h1><input
-			onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.selectedTask.name)}
-			type='button'
-			value='back'
-		/><input
-			onClick={() => {
-				this.timeLeftField.value = '';
-				this.timeRightField.value = '';
-			}}
-			type='button'
-			value='clear'
-		/><input
-			ref={ref => { if (ref) { this.timeLeftField = ref; } }}
-		/><input
-			ref={ref => { if (ref) { this.timeRightField = ref; } }}
-		/><input
-			onClick={() => this.props.adjustTime(
-				this.props.selectedTask.name,
-				this.timeLeftField.value,
-				this.timeRightField.value,
-				operation.INCREMENT
-			)}
-			type='button'
-			value='increase time'
-		/><input
-			onClick={() => this.props.adjustTime(
-				this.props.selectedTask.name,
-				this.timeLeftField.value,
-				this.timeRightField.value,
-				operation.DECREMENT
-			)}
-			type='button'
-			value='decrease time'
-		/><TaskList
-			showInput={false}
-		/></>;
-	}
+function AdjustTime(props) {
+
+	const selectedTask = useSelector(getSelectedTask);
+
+	const dispatch = useDispatch();
+
+	return <><h1>{`adjust task ${selectedTask.name}'s time`}</h1><input
+		onClick={() => dispatch(navigate(state.TASK_ACTION_MENU, selectedTask.name))}
+		type='button'
+		value='back'
+	/><input
+		onClick={() => {
+			timeLeftField.value = '';
+			timeRightField.value = '';
+		}}
+		type='button'
+		value='clear'
+	/><input
+		ref={setRef(ref => timeLeftField = ref)}
+	/><input
+		ref={setRef(ref => timeRightField = ref)}
+	/><input
+		onClick={() => dispatch(adjustTime(
+			selectedTask.name,
+			timeLeftField.value,
+			timeRightField.value,
+			operation.INCREMENT
+		))}
+		type='button'
+		value='increase time'
+	/><input
+		onClick={() => dispatch(adjustTime(
+			selectedTask.name,
+			timeLeftField.value,
+			timeRightField.value,
+			operation.DECREMENT
+		))}
+		type='button'
+		value='decrease time'
+	/><TaskList
+		showInput={false}
+	/></>;
 }
 
-const mapStateToProps = state => ({
-
-	state: state.reducer.state,
-	selectedTask: getSelectedTask(state)
-});
-
-const mapDispatchToProps = dispatch => ({
-
-	addTask: taskName => dispatch(action.addTask(taskName)),
-	adjustTime: (...args) => dispatch(action.adjustTime(...args)),
-	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(AdjustTime);
+export default AdjustTime;

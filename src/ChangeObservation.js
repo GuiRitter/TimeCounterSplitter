@@ -1,46 +1,51 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as action from './flux/action';
 import * as state from './constant/state';
-import { getSelectedTask } from './selector/index';
 
-class ChangeObservation extends React.Component {
+import { changeObservation, navigate } from './flux/action';
+import { getSelectedTask } from './flux/selector';
 
-	componentDidMount() {
+import { setRef } from './util/system';
 
-		if (this.observationField) {
-			this.observationField.value = (this.props.selectedTask || {}).observation || '';
-		}
-	}
+let observationField = null;
 
-	render() {
-		return <><h1>{`new observation for task ${this.props.selectedTask.name}`}</h1><input
-			onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.selectedTask.name)}
-			type='button'
-			value='back'
-		/><input
-			ref={ref => { if (ref) { this.observationField = ref; } }}
-		/><input
-			onClick={() => this.props.changeObservation(
-				this.props.selectedTask.name,
-				this.observationField.value
-			)}
-			type='button'
-			value='change observation'
-		/></>;
+function componentDidMount(props, selectedTask) {
+	if (observationField) {
+		observationField.value = (selectedTask || {}).observation || '';
 	}
 }
 
-const mapStateToProps = state => ({
+function ChangeObservation(props) {
 
-	selectedTask: getSelectedTask(state)
-});
+	const didMountRef = useRef(false);
+	const dispatch = useDispatch();
 
-const mapDispatchToProps = dispatch => ({
+	const selectedTask = useSelector(getSelectedTask);
 
-	changeObservation: (...args) => dispatch(action.changeObservation(...args)),
-	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName))
-});
+	useEffect(() => {
+		if (didMountRef.current) {
+			// componentDidUpdate(props, prevProps);
+		} else {
+			didMountRef.current = true;
+			componentDidMount(props, selectedTask);
+		}
+	});
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(ChangeObservation);
+	return <><h1>{`new observation for task ${selectedTask.name}`}</h1><input
+		onClick={() => dispatch(navigate(state.TASK_ACTION_MENU, selectedTask.name))}
+		type='button'
+		value='back'
+	/><input
+		ref={setRef(ref => observationField = ref)}
+	/><input
+		onClick={() => dispatch(changeObservation(
+			selectedTask.name,
+			observationField.value
+		))}
+		type='button'
+		value='change observation'
+	/></>;
+}
+
+export default ChangeObservation;

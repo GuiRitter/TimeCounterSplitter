@@ -1,51 +1,54 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as action from './flux/action';
 import * as state from './constant/state';
 
-class ActionMenu extends React.Component {
+import { clearFromLocalStorage, clearTaskCounts, navigate, showHideObservation } from './flux/action';
 
-	render() {
-		return <><input
-			onClick={() => this.props.navigate(state.TASK_LIST)}
-			type='button'
-			value='back'
-		/><input
-			onClick={() => this.props.navigate(state.ACTION_ADD)}
-			type='button'
-			value='add new task'
-		/><input
-			onClick={() => this.props.clearTaskCounts()}
-			type='button'
-			value='clear times'
-		/><input
-			onClick={() => this.props.clearFromLocalStorage()}
-			type='button'
-			value='clear storage'
-		/><input
-			onClick={() => this.props.navigate(state.ACTION_SET_HOURS_PER_DAY)}
-			type='button'
-			value='set hours per day'
-		/><input
-			onClick={() => this.props.showHideObservation()}
-			type='button'
-			value={`${this.props.observationVisible ? 'hide' : 'show'} observations`}
-		/></>;
-	}
+function componentDidMount(props) {
 }
 
-const mapStateToProps = (state, props) => ({
+function ActionMenu(props) {
 
-	observationVisible: state.reducer.observationVisible
-});
+	const didMountRef = useRef(false);
+	const dispatch = useDispatch();
 
-const mapDispatchToProps = dispatch => ({
+	useEffect(() => {
+		if (didMountRef.current) {
+			// componentDidUpdate(props, prevProps);
+		} else {
+			didMountRef.current = true;
+			componentDidMount(props);
+		}
+	});
 
-	clearFromLocalStorage: () => dispatch(action.clearFromLocalStorage()),
-	clearTaskCounts: () => dispatch(action.clearTaskCounts()),
-	navigate: state => dispatch(action.navigate(state)),
-	showHideObservation: () => dispatch(action.showHideObservation())
-});
+	const observationVisible = useSelector(state => !!(((state || {}).reducer || {}).observationVisible && true));
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(ActionMenu);
+	return <><input
+		onClick={() => dispatch(navigate(state.TASK_LIST))}
+		type='button'
+		value='back'
+	/><input
+		onClick={() => dispatch(navigate(state.ACTION_ADD))}
+		type='button'
+		value='add new task'
+	/><input
+		onClick={() => dispatch(clearTaskCounts())}
+		type='button'
+		value='clear times'
+	/><input
+		onClick={() => dispatch(clearFromLocalStorage())}
+		type='button'
+		value='clear storage'
+	/><input
+		onClick={() => dispatch(navigate(state.ACTION_SET_HOURS_PER_DAY))}
+		type='button'
+		value='set hours per day'
+	/><input
+		onClick={() => dispatch(showHideObservation())}
+		type='button'
+		value={`${observationVisible ? 'hide' : 'show'} observations`}
+	/></>;
+}
+
+export default ActionMenu;

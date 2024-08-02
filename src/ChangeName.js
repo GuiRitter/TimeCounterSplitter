@@ -1,39 +1,35 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as action from './flux/action';
 import * as state from './constant/state';
-import { getSelectedTask } from './selector/index';
 
-class ChangeName extends React.Component {
+import { changeName, navigate } from './flux/action';
+import { getSelectedTask } from './flux/selector';
 
-	render() {
-		return <><h1>{`new name for task ${this.props.selectedTask.name}`}</h1><input
-			onClick={() => this.props.navigate(state.TASK_ACTION_MENU, this.props.selectedTask.name)}
-			type='button'
-			value='back'
-		/><input
-			ref={ref => { if (ref) { this.nameField = ref; } }}
-		/><input
-			onClick={() => this.props.changeName(
-				this.props.selectedTask.name,
-				this.nameField.value
-			)}
-			type='button'
-			value='change name'
-		/></>;
-	}
+import { setRef } from './util/system';
+
+let nameField = null;
+
+function ChangeName(props) {
+
+	const selectedTask = useSelector(getSelectedTask);
+
+	const dispatch = useDispatch();
+
+	return <><h1>{`new name for task ${selectedTask.name}`}</h1><input
+		onClick={() => dispatch(navigate(state.TASK_ACTION_MENU, selectedTask.name))}
+		type='button'
+		value='back'
+	/><input
+		ref={setRef(ref => nameField = ref)}
+	/><input
+		onClick={() => dispatch(changeName(
+			selectedTask.name,
+			nameField.value
+		))}
+		type='button'
+		value='change name'
+	/></>;
 }
 
-const mapStateToProps = state => ({
-
-	selectedTask: getSelectedTask(state)
-});
-
-const mapDispatchToProps = dispatch => ({
-
-	changeName: (...args) => dispatch(action.changeName(...args)),
-	navigate: (state, selectedTaskName) => dispatch(action.navigate(state, selectedTaskName))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(ChangeName);
+export default ChangeName;

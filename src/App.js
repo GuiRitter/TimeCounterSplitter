@@ -1,75 +1,74 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as action from './flux/action';
 import * as state from './constant/state';
-import { isAnyActive } from './selector'
 
-import Add from './Add';
+import { restoreFromLocalStorage } from './flux/action';
+import * as selector from './flux/selector';
+
 import ActionMenu from './ActionMenu';
+import Add from './Add';
 import AdjustTime from './AdjustTime';
 import ChangeName from './ChangeName';
 import ChangeObservation from './ChangeObservation';
 import SetHoursPerDay from './SetHoursPerDay';
-import TaskList from './TaskList';
 import TaskActionMenu from './TaskActionMenu';
+import TaskList from './TaskList';
 
 import './App.css';
 
-class App extends React.Component {
+function componentDidMount(props, dispatch, isAnyActive) {
+	window.addEventListener('beforeunload', function (e) {
+		// Cancel the event
+		e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+		// Chrome requires returnValue to be set
+		e.returnValue = '';
+	});
 
-	/**
-	 * Prevents the tab from being closed accidentally.
-	 * 
-	 * [Source](https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload).
-	 */
-	componentDidMount() {
-		window.addEventListener('beforeunload', function (e) {
-			// Cancel the event
-			e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-			// Chrome requires returnValue to be set
-			e.returnValue = '';
-		});
+	dispatch(restoreFromLocalStorage());
 
-		this.props.restoreFromLocalStorage();
+	setTimeout(() => componentDidUpdate(props, null, isAnyActive), 0);
+}
 
-		setTimeout(() => this.componentDidUpdate(), 0);
-	}
-
-	componentDidUpdate() {
-		if (this.props.isAnyActive) {
-			document.title = 'active · Time Counter Splitter';
-		} else {
-			document.title = 'stopped · Time Counter Splitter';
-		}
-	}
-
-	render() {
-		switch (this.props.state || state.TASK_LIST) {
-			case state.ACTION_ADD: return <Add/>;
-			case state.ACTION_MENU: return <ActionMenu/>;
-			case state.ACTION_SET_HOURS_PER_DAY: return <SetHoursPerDay/>;
-			case state.TASK_ACTION_MENU: return <TaskActionMenu/>;
-			case state.TASK_CHANGE_OBSERVATION: return <ChangeObservation/>;
-			case state.TASK_ADJUST_TIME: return <AdjustTime/>;
-			case state.TASK_CHANGE_NAME: return <ChangeName/>;
-			case state.TASK_LIST: return <TaskList
-				showInput={true}
-			/>;
-			default: return null;
-		}
+function componentDidUpdate(props, prevProps, isAnyActive) {
+	if (isAnyActive) {
+		document.title = 'active · Time Counter Splitter';
+	} else {
+		document.title = 'stopped · Time Counter Splitter';
 	}
 }
 
-const mapStateToProps = state => ({
+function App(props) {
 
-	isAnyActive: isAnyActive(state),
-	state: state.reducer.state
-});
+	const didMountRef = useRef(false);
 
-const mapDispatchToProps = dispatch => ({
+	const currentState = useSelector(state => ((state || {}).reducer || {}).state);
+	const isAnyActive = useSelector(selector.isAnyActive);
+	
+	const dispatch = useDispatch();
 
-	restoreFromLocalStorage: () => dispatch(action.restoreFromLocalStorage()),
-});
+	useEffect(() => {
+		if (didMountRef.current) {
+			componentDidUpdate(props, null, isAnyActive);
+		} else {
+			didMountRef.current = true;
+			componentDidMount(props, dispatch, isAnyActive);
+		}
+	});
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(App);
+	switch (currentState || state.TASK_LIST) {
+		case state.ACTION_ADD: return <Add/>;
+		case state.ACTION_MENU: return <ActionMenu/>;
+		case state.ACTION_SET_HOURS_PER_DAY: return <SetHoursPerDay/>;
+		case state.TASK_ACTION_MENU: return <TaskActionMenu/>;
+		case state.TASK_CHANGE_OBSERVATION: return <ChangeObservation/>;
+		case state.TASK_ADJUST_TIME: return <AdjustTime/>;
+		case state.TASK_CHANGE_NAME: return <ChangeName/>;
+		case state.TASK_LIST: return <TaskList
+			showInput={true}
+		/>;
+		default: return null;
+	}
+}
+
+export default App;
