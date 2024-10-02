@@ -1,6 +1,6 @@
 {
   "name": "time_counter_splitter",
-  "version": "1.13.3",
+  "version": "1.13.4",
   "private": true,
   "homepage": "time_counter_splitter/",
   "dependencies": {

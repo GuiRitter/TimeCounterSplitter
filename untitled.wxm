@@ -1,0 +1,205 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+Rotation2D(theta):=matrix([cos(theta),-sin(theta),0],[sin(theta),cos(theta),0],[0,0,1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parallel_distance(intercept_A, intercept_B, slope):=abs(intercept_A - intercept_B)/sqrt(1 + (slope^2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+intercept_from_point_and_slope(x, y, slope):=y-(slope*x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+point_A:matrix([1],[0],[1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+point_B:Rotation2D(2*%pi/3).point_A;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+point_C:Rotation2D(2*%pi/3).point_B;
+point_C:Rotation2D(2*2*%pi/3).point_A;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+distances in x
+, distances in y,
+, distances between lines that pass through the points at 45 degrees angle
+, distances between lines that pass through the points at 135 degrees angle
+, line type 1 solid
+, line type 2 dashed
+, line type 3 dotted
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    /*explicit((Rotation2D(theta).point_A)[1][1], theta, 0, %pi/2)
+    , explicit((Rotation2D(theta).point_B)[1][1], theta, 0, %pi/2)
+    , explicit((Rotation2D(theta).point_C)[1][1], theta, 0, %pi/2)
+    */ color = red
+    , line_type = 1, explicit(abs(((Rotation2D(theta).point_A)[1][1])-((Rotation2D(theta).point_B)[1][1])), theta, 0, %pi/2)
+    , line_type = 2, explicit(abs(((Rotation2D(theta).point_B)[1][1])-((Rotation2D(theta).point_C)[1][1])), theta, 0, %pi/2)
+    , line_type = 3, explicit(abs(((Rotation2D(theta).point_C)[1][1])-((Rotation2D(theta).point_A)[1][1])), theta, 0, %pi/2)
+    , color = yellow
+    , line_type = 1, explicit(abs(((Rotation2D(theta).point_A)[2][1])-((Rotation2D(theta).point_B)[2][1])), theta, 0, %pi/2)
+    , line_type = 2, explicit(abs(((Rotation2D(theta).point_B)[2][1])-((Rotation2D(theta).point_C)[2][1])), theta, 0, %pi/2)
+    , line_type = 3, explicit(abs(((Rotation2D(theta).point_C)[2][1])-((Rotation2D(theta).point_A)[2][1])), theta, 0, %pi/2)
+    , color = green
+    , line_type = 1, explicit(parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], 1)
+            , 1
+    ), theta, 0, %pi/2)
+    , line_type = 2, explicit(parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], 1)
+            , 1
+    ), theta, 0, %pi/2)
+    , line_type = 3, explicit(parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , 1
+    ), theta, 0, %pi/2)
+    , color = cyan
+    , line_type = 1, explicit(parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], -1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], -1)
+            , -1
+    ), theta, 0, %pi/2)
+    , line_type = 2, explicit(parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], -1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], -1)
+            , -1
+    ), theta, 0, %pi/2)
+    , line_type = 3, explicit(parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], -1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], -1)
+            , -1
+    ), theta, 0, %pi/2)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+the angle with the highest minimum will be the angle where the points are furthest from each other in x, y and the diagonals
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y  - y_1 = m * (x - x_1);
+solve(%,y);
+ev(%, m = 1, x_1 = -1/2, y_1 = sqrt(3)/2);
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y=m*x+y_0;
+solve(%, y_0);
+ev(%, m = 1, x = -1/2, y = sqrt(3)/2);
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y=abs(((Rotation2D(theta).point_B)[1][1])-((Rotation2D(theta).point_C)[1][1]));
+solve(%, theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y=parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , 1
+    );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+abs(((Rotation2D(theta).point_B)[1][1])-((Rotation2D(theta).point_C)[1][1]))=parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , 1
+    );
+solve(%, theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , 1
+    )=abs(((Rotation2D(theta).point_A)[2][1])-((Rotation2D(theta).point_B)[2][1]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+abs(((Rotation2D(theta).point_A)[2][1])-((Rotation2D(theta).point_B)[2][1]))=parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], -1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], -1)
+            , -1
+    );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], -1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_C)[1][1], (Rotation2D(theta).point_C)[2][1], -1)
+            , -1
+    )=abs(((Rotation2D(theta).point_C)[1][1])-((Rotation2D(theta).point_A)[1][1]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+abs(((Rotation2D(theta).point_C)[1][1])-((Rotation2D(theta).point_A)[1][1]))=parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], 1)
+            , 1
+    );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parallel_distance(
+            intercept_from_point_and_slope((Rotation2D(theta).point_A)[1][1], (Rotation2D(theta).point_A)[2][1], 1)
+            , intercept_from_point_and_slope((Rotation2D(theta).point_B)[1][1], (Rotation2D(theta).point_B)[2][1], 1)
+            , 1
+    )=abs(((Rotation2D(theta).point_B)[2][1])-((Rotation2D(theta).point_C)[2][1]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+sqrt(3)*abs(sin(theta))=abs((sqrt(3)*sin(theta))/2+(3*sin(theta))/2+(sqrt(3)*cos(theta))/2-(3*cos(theta))/2)/sqrt(2)
+
+approximate thetas
+0.130899693899575
+0.392699081698724
+0.654498469497874
+0.916297857297023
+1.17809724509617
+1.43989663289532
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$
