@@ -200,6 +200,32 @@ approximate thetas
    [wxMaxima: comment end   ] */
 
 
+/* [wxMaxima: input   start ] */
+[0.130899693899575,
+0.392699081698724,
+0.654498469497874,
+0.916297857297023,
+1.17809724509617,
+1.43989663289532]
+*180/%pi;
+float(%);
+%*10;
+round(%);
+%/10;
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+7.5
+22.5
+37.5
+52.5
+67.5
+82.5
+   [wxMaxima: comment end   ] */
+
+
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
 "Created with wxMaxima 22.04.0"$
