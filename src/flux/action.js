@@ -1,4 +1,5 @@
 import * as state from '../constant/state';
+import { LOCAL_STORAGE_NAME } from '../constant/system';
 import * as type from './type';
 import { isNumberOrNumberAsString } from '../util/input';
 
@@ -84,6 +85,16 @@ export const navigate = (state, selectedTaskName) => ({
 	state,
 	selectedTaskName
 });
+
+export const overwriteSavedData = () => dispatch => {
+	const savedDataNew = prompt('enter Time Counter Splitter storage data');
+
+	if (!savedDataNew) {
+		return;
+	}
+
+	localStorage.setItem(LOCAL_STORAGE_NAME, savedDataNew);
+};
 
 export const removeTask = taskToBeRemovedName => dispatch => {
 
