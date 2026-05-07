@@ -23,15 +23,15 @@ function Task(props) {
 	const proportional = useSelector(state => getTaskProportionalRounded(state, props) || {}).proportional;
 
 	return <>{buildRow(
+		buildCell(buildKey('active'), props.task.active
+			? 'active'
+			: ''),
 		buildCell(buildKey('start'), (!props.showInput) ? null : <input
 			onClick={() => dispatch(setActive(props.task.name))}
 			type='button'
 			value='start'
 		/>),
 		buildCell(buildKey('name'), props.task.name),
-		buildCell(buildKey('active'), props.task.active
-			? 'active'
-			: ''),
 		buildCell(buildKey('count'), round(count, 1), { onClick: () => alert(count), title: count }),
 		buildCell(buildKey('proportional'), props.task.ignored ? 'ignored' : round(proportional, 1), { onClick: () => alert(proportional), title: proportional }),
 		buildCell(buildKey('lastStart'), props.task.lastStartedDateTime),

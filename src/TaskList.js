@@ -25,13 +25,13 @@ function TaskList(props) {
 		.join(' + ');
 
 	return <><table><tbody>{(!props.showInput) ? null : buildRow(
+		buildCell('active'),
 		buildCell('stop', <input
 			onClick={() => dispatch(setActive(null))}
 			type='button'
 			value='stop'
 		/>),
 		buildCell('name', 'name'),
-		buildCell('active'),
 		buildCell('count', 'count'),
 		buildCell('proportional', 'ratio'),
 		buildCell('lastStart', 'last start'),
